@@ -10,10 +10,7 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import parts.InHouse;
-import parts.Outsourced;
-import parts.Part;
-import parts.Inventory;
+import parts.*;
 import products.Product;
 
 import java.io.IOException;
@@ -72,9 +69,12 @@ public class Controller implements Initializable {
 
     @FXML
     void handleModifyPartButton() throws IOException {
-        var fxmlLoader = new FXMLLoader(Part.class.getResource("modifyPartForm.fxml"));
+        var fxmlLoader = new FXMLLoader(Part.class.getResource("addPartForm.fxml"));
         var root = (Parent) fxmlLoader.load();
+        var controller = (PartsController) fxmlLoader.getController();
         var stage = new Stage();
+
+        controller.setExistingPart(partsTable.getSelectionModel().getSelectedItem());
         stage.setScene(new Scene(root, 800, 900));
         stage.show();
     }
@@ -136,17 +136,17 @@ public class Controller implements Initializable {
                 name -> {
                     Random rand = new Random();
                     var price = BigDecimal.valueOf(1.0 + rand.nextDouble() * 1 + rand.nextInt((50 - 1) + 1))
-                            .setScale(2, RoundingMode.HALF_UP)
-                            .doubleValue();
+                        .setScale(2, RoundingMode.HALF_UP)
+                        .doubleValue();
 
                     var part = new Outsourced(
-                            Inventory.getInstance().getCurrentId(),
-                            name,
-                            price,
-                            1 + rand.nextInt((50 - 1) + 1),
-                            1 + rand.nextInt((50 - 1) + 1),
-                            1 + rand.nextInt((50 - 1) + 1),
-                            "Auto Parts Palace"
+                        Inventory.getInstance().getCurrentId(),
+                        name,
+                        price,
+                        1 + rand.nextInt((50 - 1) + 1),
+                        1 + rand.nextInt((50 - 1) + 1),
+                        1 + rand.nextInt((50 - 1) + 1),
+                        "Auto Parts Palace"
                     );
 
                     Inventory.getInstance().addToList(part);

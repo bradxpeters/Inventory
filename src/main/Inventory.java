@@ -1,8 +1,9 @@
-package parts;
+package main;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import parts.Part;
 
 import java.util.ArrayList;
 

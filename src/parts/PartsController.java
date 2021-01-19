@@ -1,10 +1,12 @@
 package parts;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import main.Inventory;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -12,6 +14,8 @@ import java.util.ResourceBundle;
 public class PartsController implements Initializable {
 
     private final String IN_HOUSE_RADIO = "inHouseRadioButton";
+
+    private Part existingPart;
 
     @FXML
     private Label machineIdLabel;
@@ -54,6 +58,16 @@ public class PartsController implements Initializable {
 
     @FXML
     private Button addPartFormSaveButton;
+
+    @FXML
+    private Button addPartFormCancelButton;
+
+    @FXML
+    void handleCancelAddPartForm(ActionEvent e) {
+        // Close the window
+        var stage = (Stage) addPartFormSaveButton.getScene().getWindow();
+        stage.close();
+    };
 
     @FXML
     void handleSubmitAddPartForm(ActionEvent e) {
@@ -107,6 +121,29 @@ public class PartsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        partId.setText(String.valueOf(Inventory.getInstance().getCurrentId()));
+
+        Platform.runLater(() -> {
+
+            System.out.println("EXISTING PART");
+            if (this.getExistingPart() != null) {
+                var part = this.getExistingPart();
+
+                partId.setText(String.valueOf(part.getId()));
+                partName.setText(part.getName());
+            }
+
+        });
+
+
+        // New part
+//        partId.setText(String.valueOf(Inventory.getInstance().getCurrentId()));
+    }
+
+    public Part getExistingPart() {
+        return existingPart;
+    }
+
+    public void setExistingPart(Part existingPart) {
+        this.existingPart = existingPart;
     }
 }
