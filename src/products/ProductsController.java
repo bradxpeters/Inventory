@@ -8,9 +8,11 @@ import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 import main.Inventory;
 import parts.Part;
 
+import javafx.event.ActionEvent;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -47,6 +49,9 @@ public class ProductsController implements Initializable {
     TableView<Part> allPartsTable;
 
     @FXML
+    TableView<Part> associatedPartsTable;
+
+    @FXML
     private TableColumn<Part,Integer> partId;
 
     @FXML
@@ -58,6 +63,30 @@ public class ProductsController implements Initializable {
     @FXML
     private TableColumn<Part,Double> partPrice;
 
+    @FXML
+    private TableColumn<Part,Integer> associatedPartId;
+
+    @FXML
+    private TableColumn<Part,String> associatedPartName;
+
+    @FXML
+    private TableColumn<Part,Integer> associatedPartStock;
+
+    @FXML
+    private TableColumn<Part,Double> associatedPartPrice;
+
+    @FXML
+    private Button addPartButton;
+
+    @FXML
+    private Button deletePartButton;
+
+    @FXML
+    private void handleCancelButton() {
+        var scene = (Stage) cancelButton.getScene().getWindow();
+        scene.close();
+    }
+
     public Product getExistingProduct() {
         return existingProduct;
     }
@@ -66,15 +95,30 @@ public class ProductsController implements Initializable {
         this.existingProduct = existingProduct;
     }
 
+    @FXML
+    public void handleAddPart(ActionEvent e){
+        this.getExistingProduct().addAssociatedPart(
+            allPartsTable.getSelectionModel().getSelectedItem()
+        );
+    }
+
+    @FXML
+    public void handleRemovePart(ActionEvent e){
+        this.getExistingProduct().deleteAssociatedPart(associatedPartsTable.getSelectionModel().getSelectedItem());
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        // Initialize cell factories
-        partId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        partName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        partStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
-        partPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
-
         Platform.runLater(() -> {
+            // Initialize cell factories
+            partId.setCellValueFactory(new PropertyValueFactory<>("id"));
+            partName.setCellValueFactory(new PropertyValueFactory<>("name"));
+            partStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
+            partPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+            associatedPartId.setCellValueFactory(new PropertyValueFactory<>("id"));
+            associatedPartName.setCellValueFactory(new PropertyValueFactory<>("name"));
+            associatedPartStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
+            associatedPartPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
 
             // Handle editing existing product
             if (this.getExistingProduct() != null) {
@@ -85,15 +129,26 @@ public class ProductsController implements Initializable {
                 productPriceField.setText(String.valueOf(existingProduct.getPrice()));
                 productMaxField.setText(String.valueOf(existingProduct.getMax()));
                 productMinField.setText(String.valueOf(existingProduct.getMin()));
-
             } else {
                 // New product
                 productIdField.setText(String.valueOf(Inventory.getInstance().getCurrentProductId()));
+                this.existingProduct = new Product();
             }
 
             // Fill all parts table
-            System.out.println("SETTING SMALL PARTS TABLE");
             allPartsTable.setItems(Inventory.getInstance().getAllParts());
+            associatedPartsTable.setItems(this.getExistingProduct().getAllAssociatedParts());
+
+            // Add part button should be disabled until a selection is made
+            addPartButton.setDisable(true);
+
+            allPartsTable.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
+                if (newValue != null) {
+                    addPartButton.setDisable(false);
+                }
+            });
+
+
         });
     }
 }

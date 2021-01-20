@@ -1,7 +1,11 @@
 package products;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import parts.Part;
+
+import java.util.ArrayList;
 
 public class Product {
     private ObservableList<Part> associatedParts;
@@ -74,6 +78,10 @@ public class Product {
         this.max = max;
     }
 
+    public Product() {
+        this.associatedParts = FXCollections.observableList(new ArrayList<Part>());
+    }
+
     public Product(ObservableList<Part> associatedParts, int id, String name, double price, int stock, int min, int max) {
         this.associatedParts = associatedParts;
         this.id = id;
@@ -85,11 +93,22 @@ public class Product {
     }
 
     public void addAssociatedPart(Part part) {
+        // Don't allow duplicate parts
+        var existing = this.getAllAssociatedParts()
+            .stream()
+            .filter(p -> p.getId() == part.getId())
+            .findFirst()
+            .orElse(null);
 
+        if (existing == null) {
+            this.getAllAssociatedParts().add(part);
+        }
     }
 
     public boolean deleteAssociatedPart(Part selectedAssociatedPart) {
-        return false;
+        return this
+            .getAllAssociatedParts()
+            .removeIf(p -> p.getId() == selectedAssociatedPart.getId());
     }
 
 }

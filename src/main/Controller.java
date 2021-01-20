@@ -266,7 +266,7 @@ public class Controller implements Initializable {
                             .doubleValue();
 
                     var product = new Product(
-                            null,
+                            FXCollections.observableList(new ArrayList<Part>()),
                             Inventory.getInstance().getCurrentProductId(),
                             name,
                             price,

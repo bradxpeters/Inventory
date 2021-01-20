@@ -106,18 +106,20 @@
                   <TableColumn fx:id="partPrice" prefWidth="149.0" text="Price/Cost per Unit" />
                </columns>
             </TableView>
-            <Button mnemonicParsing="false" text="Add">
+            <Button fx:id="addPartButton" mnemonicParsing="false" onAction="#handleAddPart" text="Add">
                <VBox.margin>
                   <Insets right="30.0" />
                </VBox.margin>
             </Button>
-            <TableView prefHeight="200.0" prefWidth="200.0">
-              <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
-              </columns>
+            <TableView fx:id="associatedPartsTable" prefHeight="200.0" prefWidth="200.0">
+               <columns>
+                  <TableColumn fx:id="associatedPartId" prefWidth="75.0" text="Part ID" />
+                  <TableColumn fx:id="associatedPartName" prefWidth="75.0" text="Part Name" />
+                  <TableColumn fx:id="associatedPartStock" prefWidth="126.0" text="Inventory Level" />
+                  <TableColumn fx:id="associatedPartPrice" prefWidth="149.0" text="Price/Cost per Unit" />
+               </columns>
             </TableView>
-            <Button mnemonicParsing="false" prefHeight="27.0" prefWidth="179.0" text="Remove Associated Part">
+            <Button fx:id="deletePartButton" mnemonicParsing="false" onAction="#handleRemovePart" prefHeight="27.0" prefWidth="179.0" text="Remove Associated Part">
                <VBox.margin>
                   <Insets right="30.0" />
                </VBox.margin>
@@ -125,7 +127,7 @@
             <HBox maxWidth="175.0" prefHeight="30.0" prefWidth="305.0" spacing="60.0">
                <children>
                   <Button fx:id="saveButton" mnemonicParsing="false" text="Save" />
-                  <Button fx:id="cancelButton" mnemonicParsing="false" text="Cancel" />
+                  <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#handleCancelButton" text="Cancel" />
                </children>
                <VBox.margin>
                   <Insets right="30.0" />
