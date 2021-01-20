@@ -47,6 +47,8 @@ public class ProductsController implements Initializable {
 
     private Product existingProduct;
 
+    private Product newProduct;
+
     @FXML
     TableView<Part> allPartsTable;
 
@@ -88,15 +90,33 @@ public class ProductsController implements Initializable {
 
     @FXML
     private void handleSaveProduct() {
-        var product = this.getExistingProduct();
-        product.setName(productNameField.getText());
-        product.setPrice(Double.parseDouble(productPriceField.getText()));
-        product.setMin(Integer.parseInt(productMinField.getText()));
-        product.setMax(Integer.parseInt(productMaxField.getText()));
-        product.setStock(Integer.parseInt(productStockField.getText()));
-        product.setAssociatedParts(associatedPartsTable.getItems());
 
-        Inventory.getInstance().addProduct(product);
+        if (this.getExistingProduct() != null) {
+            var updatedProduct = new Product(
+                associatedPartsTable.getItems(),
+                this.getExistingProduct().getId(),
+                productNameField.getText(),
+                Double.parseDouble(productPriceField.getText()),
+                Integer.parseInt(productStockField.getText()),
+                Integer.parseInt(productMinField.getText()),
+                Integer.parseInt(productMaxField.getText())
+            );
+
+            var index = Inventory.getInstance().getAllProducts().indexOf(this.getExistingProduct());
+            Inventory.getInstance().updateProduct(index, updatedProduct);
+        } else {
+            var newProduct = new Product(
+                associatedPartsTable.getItems(),
+                Integer.parseInt(productIdField.getText()),
+                productNameField.getText(),
+                Double.parseDouble(productPriceField.getText()),
+                Integer.parseInt(productStockField.getText()),
+                Integer.parseInt(productMinField.getText()),
+                Integer.parseInt(productMaxField.getText())
+            );
+
+            Inventory.getInstance().addProduct(newProduct);
+        }
 
         var stage = (Stage) saveButton.getScene().getWindow();
         stage.close();
@@ -153,12 +173,15 @@ public class ProductsController implements Initializable {
             } else {
                 // New product
                 productIdField.setText(String.valueOf(Inventory.getInstance().getCurrentProductId()));
-                this.existingProduct = new Product(Inventory.getInstance().getCurrentProductId());
             }
 
             // Fill all parts table
             allPartsTable.setItems(Inventory.getInstance().getAllParts());
-            associatedPartsTable.setItems(this.getExistingProduct().getAllAssociatedParts());
+            associatedPartsTable.setItems(
+                this.getExistingProduct() != null
+                    ? this.getExistingProduct().getAllAssociatedParts()
+                    : FXCollections.observableList(new ArrayList<>())
+            );
 
             // Add part button should be disabled until a selection is made
             addPartButton.setDisable(true);

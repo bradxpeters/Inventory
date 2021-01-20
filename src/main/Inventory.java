@@ -95,11 +95,11 @@ public class Inventory {
     }
 
     public void updatePart(int index, Part selectedPart) {
-
+        this.allParts.set(index,selectedPart);
     }
 
     public void updateProduct(int index, Product newProduct) {
-
+        this.allProducts.set(index,newProduct);
     }
 
     public boolean deletePart(Part selectedPart) {

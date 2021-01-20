@@ -7,6 +7,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 import main.Inventory;
+import products.Product;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -71,30 +72,63 @@ public class PartsController implements Initializable {
 
     @FXML
     void handleSubmitAddPartForm(ActionEvent e) {
-        if (inHouseRadioButton.isSelected()) {
-            Inventory.getInstance().addPart(
-                new InHouse(
-                    Integer.parseInt(partIdField.getText()),
+        // handle existing part
+        if (this.existingPart != null) {
+            if (existingPart.getClass() == InHouse.class) {
+                var updatedPart = new InHouse(
+                    this.existingPart.getId(),
                     partNameField.getText(),
-                    Integer.parseInt(partPriceField.getText()),
+                    Double.parseDouble(partPriceField.getText()),
                     Integer.parseInt(partStockField.getText()),
                     Integer.parseInt(partMinField.getText()),
                     Integer.parseInt(partMaxField.getText()),
                     Integer.parseInt(machineIdField.getText())
-                )
-            );
-        } else {
-            Inventory.getInstance().addPart(
-                new Outsourced(
-                    Integer.parseInt(partIdField.getText()),
+                );
+
+                var index = Inventory.getInstance().getAllParts().indexOf(this.existingPart);
+                Inventory.getInstance().updatePart(index, updatedPart);
+            } else {
+                var updatedPart = new Outsourced(
+                    this.existingPart.getId(),
                     partNameField.getText(),
-                    Integer.parseInt(partPriceField.getText()),
+                    Double.parseDouble(partPriceField.getText()),
                     Integer.parseInt(partStockField.getText()),
                     Integer.parseInt(partMinField.getText()),
                     Integer.parseInt(partMaxField.getText()),
                     companyNameField.getText()
-                )
-            );
+                );
+
+                var index = Inventory.getInstance().getAllParts().indexOf(this.existingPart);
+                Inventory.getInstance().updatePart(index, updatedPart);
+            }
+        } else {
+            // Handle new part
+            if (inHouseRadioButton.isSelected()) {
+                Inventory.getInstance().addPart(
+                    new InHouse(
+                        Integer.parseInt(partIdField.getText()),
+                        partNameField.getText(),
+                        Integer.parseInt(partPriceField.getText()),
+                        Integer.parseInt(partStockField.getText()),
+                        Integer.parseInt(partMinField.getText()),
+                        Integer.parseInt(partMaxField.getText()),
+                        Integer.parseInt(machineIdField.getText())
+                    )
+                );
+            } else {
+                Inventory.getInstance().addPart(
+                    new Outsourced(
+                        Integer.parseInt(partIdField.getText()),
+                        partNameField.getText(),
+                        Integer.parseInt(partPriceField.getText()),
+                        Integer.parseInt(partStockField.getText()),
+                        Integer.parseInt(partMinField.getText()),
+                        Integer.parseInt(partMaxField.getText()),
+                        companyNameField.getText()
+                    )
+                );
+            }
+
         }
 
         // Close the window

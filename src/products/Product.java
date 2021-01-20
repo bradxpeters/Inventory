@@ -22,6 +22,10 @@ public class Product {
     private int max;
 
     public ObservableList<Part> getAllAssociatedParts() {
+        if (associatedParts == null) {
+            this.associatedParts = FXCollections.observableList(new ArrayList<>());
+        }
+
         return associatedParts;
     }
 
@@ -75,11 +79,6 @@ public class Product {
 
     public void setMax(int max) {
         this.max = max;
-    }
-
-    public Product(int id) {
-        this.id = id;
-        this.associatedParts = FXCollections.observableList(new ArrayList<Part>());
     }
 
     public Product(ObservableList<Part> associatedParts, int id, String name, double price, int stock, int min, int max) {
