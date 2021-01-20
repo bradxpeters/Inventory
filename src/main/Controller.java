@@ -112,7 +112,7 @@ public class Controller implements Initializable {
 
     @FXML
     void handleModifyProductButton() throws IOException {
-        var fxmlLoader = new FXMLLoader(Part.class.getResource("addProductForm.fxml"));
+        var fxmlLoader = new FXMLLoader(Product.class.getResource("addProductForm.fxml"));
         var root = (Parent) fxmlLoader.load();
         var controller = (ProductsController) fxmlLoader.getController();
         var stage = new Stage();
@@ -162,6 +162,8 @@ public class Controller implements Initializable {
         // Create some starter parts
         var inHousePartNames = Arrays.asList("brake pad", "rim");
         var outsourcePartNames = Arrays.asList("tire", "door", "bolt");
+        var productNames = Arrays.asList("Gian Bike", "Trek Bike", "Specialized Bike", "Scott Bike");
+
         inHousePartNames.forEach(
             name -> {
                 Random rand = new Random();
@@ -201,6 +203,27 @@ public class Controller implements Initializable {
                     );
 
                     Inventory.getInstance().addPart(part);
+                }
+        );
+
+        productNames.forEach(
+                name -> {
+                    Random rand = new Random();
+                    var price = BigDecimal.valueOf(1.0 + rand.nextDouble() * 1 + rand.nextInt((50 - 1) + 1))
+                            .setScale(2, RoundingMode.HALF_UP)
+                            .doubleValue();
+
+                    var product = new Product(
+                            null,
+                            Inventory.getInstance().getCurrentProductId(),
+                            name,
+                            price,
+                            1 + rand.nextInt((50 - 1) + 1),
+                            1 + rand.nextInt((50 - 1) + 1),
+                            1 + rand.nextInt((50 - 1) + 1)
+                    );
+
+                    Inventory.getInstance().addProduct(product);
                 }
         );
     }

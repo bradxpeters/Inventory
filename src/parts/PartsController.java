@@ -151,8 +151,6 @@ public class PartsController implements Initializable {
                 partIdField.setText(String.valueOf(Inventory.getInstance().getCurrentPartId()));
             }
         });
-
-
     }
 
     public Part getExistingPart() {

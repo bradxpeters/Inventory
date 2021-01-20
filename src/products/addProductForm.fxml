@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/11.0.1" fx:controller="products.ProductsController">
+<GridPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="products.ProductsController">
   <columnConstraints>
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="340.5563659667969" minWidth="10.0" prefWidth="146.91726684570312" />
     <ColumnConstraints hgrow="SOMETIMES" maxWidth="660.7865829467773" minWidth="10.0" prefWidth="335.6127014160156" />
@@ -71,19 +71,19 @@
       </HBox>
       <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" spacing="21.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
-            <TextField maxWidth="200.0" prefHeight="27.0" prefWidth="200.0" />
-            <TextField maxWidth="195.0" prefHeight="27.0" prefWidth="195.0" />
-            <TextField maxWidth="120.0" />
-            <TextField maxWidth="120.0" />
+            <TextField fx:id="productIdField" maxWidth="200.0" prefHeight="27.0" prefWidth="200.0" />
+            <TextField fx:id="productNameField" maxWidth="195.0" prefHeight="27.0" prefWidth="195.0" />
+            <TextField fx:id="productStockField" maxWidth="120.0" />
+            <TextField fx:id="productPriceField" maxWidth="120.0" />
             <HBox prefHeight="33.0" prefWidth="239.0" spacing="28.0">
                <children>
-                  <TextField prefHeight="27.0" prefWidth="120.0" />
+                  <TextField fx:id="productMaxField" prefHeight="27.0" prefWidth="120.0" />
                   <Label text="Min:">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <TextField prefHeight="27.0" prefWidth="120.0" />
+                  <TextField fx:id="productMinField" prefHeight="27.0" prefWidth="120.0" />
                </children>
             </HBox>
          </children>
@@ -122,8 +122,8 @@
             </Button>
             <HBox maxWidth="175.0" prefHeight="30.0" prefWidth="305.0" spacing="60.0">
                <children>
-                  <Button mnemonicParsing="false" text="Save" />
-                  <Button mnemonicParsing="false" text="Cancel" />
+                  <Button fx:id="saveButton" mnemonicParsing="false" text="Save" />
+                  <Button fx:id="cancelButton" mnemonicParsing="false" text="Cancel" />
                </children>
                <VBox.margin>
                   <Insets right="30.0" />
