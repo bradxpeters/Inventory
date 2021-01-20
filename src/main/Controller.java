@@ -1,5 +1,6 @@
 package main;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -40,6 +41,9 @@ public class Controller implements Initializable {
     private Button addProductButton;
 
     @FXML
+    private Button exitButton;
+
+    @FXML
     private Button modifyProductButton;
 
     @FXML
@@ -74,6 +78,11 @@ public class Controller implements Initializable {
 
     @FXML
     private TableColumn<Product,Double> productPrice;
+
+    @FXML
+    void handleExitButton() {
+        Platform.exit();
+    }
 
     @FXML
     void handleAddPartButton() throws IOException {

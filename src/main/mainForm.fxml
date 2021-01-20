@@ -100,7 +100,7 @@
       </Pane>
       <Pane prefHeight="200.0" prefWidth="699.0" GridPane.columnIndex="3" GridPane.columnSpan="3" GridPane.rowIndex="3">
          <children>
-            <Button layoutX="501.0" layoutY="-1.0" mnemonicParsing="false" prefHeight="30.0" prefWidth="79.0" text="Exit" />
+            <Button fx:id="exitButton" layoutX="501.0" layoutY="-1.0" mnemonicParsing="false" onAction="#handleExitButton" prefHeight="30.0" prefWidth="79.0" text="Exit" />
          </children>
       </Pane>
    </children>

@@ -4,7 +4,9 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import main.Inventory;
+import parts.Part;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -38,6 +40,21 @@ public class ProductsController implements Initializable {
 
     private Product existingProduct;
 
+    @FXML
+    TableView<Part> allPartsTable;
+
+    @FXML
+    private TableColumn<Part,Integer> partId;
+
+    @FXML
+    private TableColumn<Part,String> partName;
+
+    @FXML
+    private TableColumn<Part,Integer> partStock;
+
+    @FXML
+    private TableColumn<Part,Double> partPrice;
+
     public Product getExistingProduct() {
         return existingProduct;
     }
@@ -48,6 +65,11 @@ public class ProductsController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        // Initialize cell factories
+        partId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        partName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        partStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        partPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         Platform.runLater(() -> {
 
@@ -65,6 +87,10 @@ public class ProductsController implements Initializable {
                 // New product
                 productIdField.setText(String.valueOf(Inventory.getInstance().getCurrentProductId()));
             }
+
+            // Fill all parts table
+            System.out.println("SETTING SMALL PARTS TABLE");
+            allPartsTable.setItems(Inventory.getInstance().getAllParts());
         });
     }
 }

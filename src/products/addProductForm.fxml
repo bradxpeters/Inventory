@@ -95,14 +95,16 @@
                   <Insets />
                </VBox.margin>
             </TextField>
-            <TableView prefHeight="200.0" prefWidth="200.0">
-              <columns>
-                <TableColumn prefWidth="75.0" text="C1" />
-                <TableColumn prefWidth="75.0" text="C2" />
-              </columns>
+            <TableView fx:id="allPartsTable" prefHeight="200.0" prefWidth="200.0">
                <VBox.margin>
                   <Insets />
                </VBox.margin>
+               <columns>
+                  <TableColumn fx:id="partId" prefWidth="75.0" text="Part ID" />
+                  <TableColumn fx:id="partName" prefWidth="75.0" text="Part Name" />
+                  <TableColumn fx:id="partStock" prefWidth="126.0" text="Inventory Level" />
+                  <TableColumn fx:id="partPrice" prefWidth="149.0" text="Price/Cost per Unit" />
+               </columns>
             </TableView>
             <Button mnemonicParsing="false" text="Add">
                <VBox.margin>
