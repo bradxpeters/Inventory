@@ -1,6 +1,8 @@
 package products;
 
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -12,8 +14,8 @@ import javafx.stage.Stage;
 import main.Inventory;
 import parts.Part;
 
-import javafx.event.ActionEvent;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class ProductsController implements Initializable {
@@ -82,6 +84,9 @@ public class ProductsController implements Initializable {
     private Button deletePartButton;
 
     @FXML
+    private TextField searchField;
+
+    @FXML
     private void handleSaveProduct() {
         var product = this.getExistingProduct();
         product.setName(productNameField.getText());
@@ -92,6 +97,9 @@ public class ProductsController implements Initializable {
         product.setAssociatedParts(associatedPartsTable.getItems());
 
         Inventory.getInstance().addProduct(product);
+
+        var stage = (Stage) saveButton.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
@@ -154,10 +162,25 @@ public class ProductsController implements Initializable {
 
             // Add part button should be disabled until a selection is made
             addPartButton.setDisable(true);
-
             allPartsTable.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
                 if (newValue != null) {
                     addPartButton.setDisable(false);
+                }
+            });
+
+            // Handle search
+            searchField.textProperty().addListener((observableValue, oldValue, newValue) -> {
+                int partId = -1;
+                try {
+                    partId = Integer.parseInt(newValue);
+                } catch (Exception ignored) {} // Not an parsable integer
+
+                if (partId != -1) {
+                    var tempList = FXCollections.observableList(new ArrayList<Part>());
+                    tempList.add(Inventory.getInstance().lookupPart(partId));
+                    allPartsTable.setItems(tempList);
+                } else {
+                    allPartsTable.setItems(Inventory.getInstance().lookupPart(newValue));
                 }
             });
 

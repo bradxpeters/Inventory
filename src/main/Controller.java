@@ -1,8 +1,6 @@
 package main;
 
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.embed.swt.FXCanvas;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -29,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 public class Controller implements Initializable {
 

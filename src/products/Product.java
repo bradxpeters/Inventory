@@ -2,7 +2,6 @@ package products;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.fxml.FXML;
 import parts.Part;
 
 import java.util.ArrayList;
