@@ -18,7 +18,7 @@ public class Product {
 
     private int max;
 
-    public ObservableList<Part> getAssociatedParts() {
+    public ObservableList<Part> getAllAssociatedParts() {
         return associatedParts;
     }
 
@@ -73,4 +73,23 @@ public class Product {
     public void setMax(int max) {
         this.max = max;
     }
+
+    public Product(ObservableList<Part> associatedParts, int id, String name, double price, int stock, int min, int max) {
+        this.associatedParts = associatedParts;
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.stock = stock;
+        this.min = min;
+        this.max = max;
+    }
+
+    public void addAssociatedPart(Part part) {
+
+    }
+
+    public boolean deleteAssociatedPart(Part selectedAssociatedPart) {
+        return false;
+    }
+
 }

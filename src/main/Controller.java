@@ -15,7 +15,6 @@ import javafx.stage.Stage;
 import parts.*;
 import products.Product;
 
-import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -71,7 +70,7 @@ public class Controller implements Initializable {
 
     @FXML
     void handleDeletePartButton() {
-       Inventory.getInstance().removeFromList(partsTable.getSelectionModel().getSelectedItem());
+       Inventory.getInstance().deletePart(partsTable.getSelectionModel().getSelectedItem());
     }
 
     @FXML
@@ -146,7 +145,7 @@ public class Controller implements Initializable {
                     .doubleValue();
 
                 var part = new InHouse(
-                    Inventory.getInstance().getCurrentId(),
+                    Inventory.getInstance().getCurrentPartId(),
                     name,
                     price,
                     1 + rand.nextInt((50 - 1) + 1),
@@ -155,7 +154,7 @@ public class Controller implements Initializable {
                     1 + rand.nextInt((50 - 1) + 1)
                 );
 
-                Inventory.getInstance().addToList(part);
+                Inventory.getInstance().addPart(part);
             }
         );
 
@@ -167,7 +166,7 @@ public class Controller implements Initializable {
                         .doubleValue();
 
                     var part = new Outsourced(
-                        Inventory.getInstance().getCurrentId(),
+                        Inventory.getInstance().getCurrentPartId(),
                         name,
                         price,
                         1 + rand.nextInt((50 - 1) + 1),
@@ -176,7 +175,7 @@ public class Controller implements Initializable {
                         "Auto Parts Palace"
                     );
 
-                    Inventory.getInstance().addToList(part);
+                    Inventory.getInstance().addPart(part);
                 }
         );
     }

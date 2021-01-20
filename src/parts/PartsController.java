@@ -72,7 +72,7 @@ public class PartsController implements Initializable {
     @FXML
     void handleSubmitAddPartForm(ActionEvent e) {
         if (inHouseRadioButton.isSelected()) {
-            Inventory.getInstance().addToList(
+            Inventory.getInstance().addPart(
                 new InHouse(
                     Integer.parseInt(partIdField.getText()),
                     partNameField.getText(),
@@ -84,7 +84,7 @@ public class PartsController implements Initializable {
                 )
             );
         } else {
-            Inventory.getInstance().addToList(
+            Inventory.getInstance().addPart(
                 new Outsourced(
                     Integer.parseInt(partIdField.getText()),
                     partNameField.getText(),
@@ -148,7 +148,7 @@ public class PartsController implements Initializable {
                 }
             } else {
                 // New part
-                partIdField.setText(String.valueOf(Inventory.getInstance().getCurrentId()));
+                partIdField.setText(String.valueOf(Inventory.getInstance().getCurrentPartId()));
             }
         });
 
