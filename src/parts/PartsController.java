@@ -71,8 +71,7 @@ public class PartsController implements Initializable {
 
     @FXML
     void handleSubmitAddPartForm(ActionEvent e) {
-        var selectedButton = (RadioButton) e.getSource();
-        if (selectedButton.getId().equals(IN_HOUSE_RADIO)) {
+        if (inHouseRadioButton.isSelected()) {
             Inventory.getInstance().addToList(
                 new InHouse(
                     Integer.parseInt(partIdField.getText()),
@@ -127,6 +126,8 @@ public class PartsController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         Platform.runLater(() -> {
+
+            // Handle editing existing part
             if (this.getExistingPart() != null) {
                 var existingPart = this.getExistingPart();
                 partIdField.setText(String.valueOf(existingPart.getId()));
@@ -145,6 +146,9 @@ public class PartsController implements Initializable {
                     handleCurrentView(outsourcedRadioButton);
                     companyNameField.setText(String.valueOf(((Outsourced) existingPart).getCompanyName()));
                 }
+            } else {
+                // New part
+                partIdField.setText(String.valueOf(Inventory.getInstance().getCurrentId()));
             }
         });
 
