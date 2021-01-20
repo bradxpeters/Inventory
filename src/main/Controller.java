@@ -123,7 +123,7 @@ public class Controller implements Initializable {
     }
 
     @FXML
-    void handleSearchPart(String value) {
+    public void handleSearchPart(String value) {
         if (value != null && !value.equals("")) {
             var filteredView = Inventory
                 .getInstance()
@@ -134,6 +134,18 @@ public class Controller implements Initializable {
             partsTable.setItems(filteredView);
         } else {
             partsTable.setItems(Inventory.getInstance().getAllParts());
+        }
+    }
+
+    public void handlePartSelectionChange(Part newValue) {
+        if (newValue != null) {
+            modifyPartButton.setDisable(false);
+        }
+    }
+
+    public void handleProductSelectionChange(Product newValue) {
+        if (newValue != null) {
+            modifyProductButton.setDisable(false);
         }
     }
 
@@ -157,6 +169,16 @@ public class Controller implements Initializable {
         // Listen to search field
         searchPartField.textProperty().addListener((observableValue, oldValue, newValue) -> {
             handleSearchPart(newValue);
+        });
+
+        // Modify buttons should be disabled until a selection is made
+        modifyPartButton.setDisable(true);
+        modifyProductButton.setDisable(true);
+        partsTable.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
+            handlePartSelectionChange(newValue);
+        });
+        productsTable.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
+            handleProductSelectionChange(newValue);
         });
 
         // Create some starter parts
