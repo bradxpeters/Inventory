@@ -1,6 +1,8 @@
 package main;
 
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.embed.swt.FXCanvas;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -23,6 +25,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.ResourceBundle;
@@ -134,21 +137,6 @@ public class Controller implements Initializable {
         stage.show();
     }
 
-    @FXML
-    public void handleSearchPart(String value) {
-        if (value != null && !value.equals("")) {
-            var filteredView = Inventory
-                .getInstance()
-                .getAllParts()
-                .stream()
-                .filter(part -> part.getName().contains(value) || String.valueOf(part.getId()).equalsIgnoreCase(value))
-                .collect(Collectors.toCollection(FXCollections::observableArrayList));
-            partsTable.setItems(filteredView);
-        } else {
-            partsTable.setItems(Inventory.getInstance().getAllParts());
-        }
-    }
-
     public void handlePartSelectionChange(Part newValue) {
         if (newValue != null) {
             modifyPartButton.setDisable(false);
@@ -180,7 +168,18 @@ public class Controller implements Initializable {
 
         // Listen to search field
         searchPartField.textProperty().addListener((observableValue, oldValue, newValue) -> {
-            handleSearchPart(newValue);
+            int partId = -1;
+            try {
+                partId = Integer.parseInt(newValue);
+            } catch (Exception ignored) {} // Not an parsable integer
+
+            if (partId != -1) {
+                var tempList = FXCollections.observableList(new ArrayList<Part>());
+                tempList.add(Inventory.getInstance().lookupPart(partId));
+                partsTable.setItems(tempList);
+            } else {
+                partsTable.setItems(Inventory.getInstance().lookupPart(newValue));
+            }
         });
 
         // Modify buttons should be disabled until a selection is made

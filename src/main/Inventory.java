@@ -7,6 +7,7 @@ import parts.Part;
 import products.Product;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class Inventory {
     private static Inventory inventory;
@@ -48,7 +49,13 @@ public class Inventory {
     }
 
     public Part lookupPart(int partId) {
-        return null;
+        return Inventory
+            .getInstance()
+            .getAllParts()
+            .stream()
+            .filter(part -> part.getId() == partId)
+            .findFirst()
+            .orElse(null);
     }
 
     public Product lookupProduct(int productId) {
@@ -56,7 +63,16 @@ public class Inventory {
     }
 
     public ObservableList<Part> lookupPart (String partName) {
-        return null;
+        if (partName != null && !partName.equals("")) {
+            return Inventory
+                .getInstance()
+                .getAllParts()
+                .stream()
+                .filter(part -> part.getName().contains(partName))
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
+        } else {
+           return this.getAllParts();
+        }
     }
 
     public ObservableList<Product> lookupProduct (String partName) {
