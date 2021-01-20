@@ -24,28 +24,28 @@ public class PartsController implements Initializable {
     private Label companyNameLabel;
 
     @FXML
-    private TextField partId;
+    private TextField partIdField;
 
     @FXML
-    private TextField partName;
+    private TextField partNameField;
 
     @FXML
-    private TextField inventoryLevel;
+    private TextField partStockField;
 
     @FXML
-    private TextField costPerUnit;
+    private TextField partPriceField;
 
     @FXML
-    private TextField machineIdTextField;
+    private TextField machineIdField;
 
     @FXML
-    private TextField companyNameTextField;
+    private TextField companyNameField;
 
     @FXML
-    private TextField partMax;
+    private TextField partMaxField;
 
     @FXML
-    private TextField partMin;
+    private TextField partMinField;
 
     @FXML
     private ToggleGroup radioButtonGroup;
@@ -57,15 +57,15 @@ public class PartsController implements Initializable {
     private RadioButton outsourcedRadioButton;
 
     @FXML
-    private Button addPartFormSaveButton;
+    private Button saveButton;
 
     @FXML
-    private Button addPartFormCancelButton;
+    private Button cancelButton;
 
     @FXML
-    void handleCancelAddPartForm(ActionEvent e) {
+    void handleCancelButton(ActionEvent e) {
         // Close the window
-        var stage = (Stage) addPartFormSaveButton.getScene().getWindow();
+        var stage = (Stage) saveButton.getScene().getWindow();
         stage.close();
     };
 
@@ -75,47 +75,51 @@ public class PartsController implements Initializable {
         if (selectedButton.getId().equals(IN_HOUSE_RADIO)) {
             Inventory.getInstance().addToList(
                 new InHouse(
-                    Integer.parseInt(partId.getText()),
-                    partName.getText(),
-                    Integer.parseInt(costPerUnit.getText()),
-                    Integer.parseInt(inventoryLevel.getText()),
-                    Integer.parseInt(partMin.getText()),
-                    Integer.parseInt(partMax.getText()),
-                    Integer.parseInt(machineIdTextField.getText())
+                    Integer.parseInt(partIdField.getText()),
+                    partNameField.getText(),
+                    Integer.parseInt(partPriceField.getText()),
+                    Integer.parseInt(partStockField.getText()),
+                    Integer.parseInt(partMinField.getText()),
+                    Integer.parseInt(partMaxField.getText()),
+                    Integer.parseInt(machineIdField.getText())
                 )
             );
         } else {
             Inventory.getInstance().addToList(
                 new Outsourced(
-                    Integer.parseInt(partId.getText()),
-                    partName.getText(),
-                    Integer.parseInt(costPerUnit.getText()),
-                    Integer.parseInt(inventoryLevel.getText()),
-                    Integer.parseInt(partMin.getText()),
-                    Integer.parseInt(partMax.getText()),
-                    companyNameTextField.getText()
+                    Integer.parseInt(partIdField.getText()),
+                    partNameField.getText(),
+                    Integer.parseInt(partPriceField.getText()),
+                    Integer.parseInt(partStockField.getText()),
+                    Integer.parseInt(partMinField.getText()),
+                    Integer.parseInt(partMaxField.getText()),
+                    companyNameField.getText()
                 )
             );
         }
 
         // Close the window
-        var stage = (Stage) addPartFormSaveButton.getScene().getWindow();
+        var stage = (Stage) saveButton.getScene().getWindow();
         stage.close();
     }
 
     @FXML
     void handleToggleRadioButtons(ActionEvent e) {
         var selectedButton = (RadioButton) e.getSource();
-        if (selectedButton.getId().equals(IN_HOUSE_RADIO)) {
+        handleCurrentView(selectedButton);
+    }
+
+    void handleCurrentView(RadioButton button) {
+        if (button.getId().equals(IN_HOUSE_RADIO)) {
             machineIdLabel.setVisible(true);
-            machineIdTextField.setVisible(true);
+            machineIdField.setVisible(true);
             companyNameLabel.setVisible(false);
-            companyNameTextField.setVisible(false);
+            companyNameField.setVisible(false);
         } else {
             companyNameLabel.setVisible(true);
-            companyNameTextField.setVisible(true);
+            companyNameField.setVisible(true);
             machineIdLabel.setVisible(false);
-            machineIdTextField.setVisible(false);
+            machineIdField.setVisible(false);
         }
     }
 
@@ -123,20 +127,28 @@ public class PartsController implements Initializable {
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
         Platform.runLater(() -> {
-
-            System.out.println("EXISTING PART");
             if (this.getExistingPart() != null) {
-                var part = this.getExistingPart();
+                var existingPart = this.getExistingPart();
+                partIdField.setText(String.valueOf(existingPart.getId()));
+                partNameField.setText(existingPart.getName());
+                partStockField.setText(String.valueOf(existingPart.getStock()));
+                partPriceField.setText(String.valueOf(existingPart.getPrice()));
+                partMaxField.setText(String.valueOf(existingPart.getMax()));
+                partMinField.setText(String.valueOf(existingPart.getMin()));
 
-                partId.setText(String.valueOf(part.getId()));
-                partName.setText(part.getName());
+                if (existingPart.getClass() == InHouse.class) {
+                    inHouseRadioButton.setSelected(true);
+                    handleCurrentView(inHouseRadioButton);
+                    machineIdField.setText(String.valueOf(((InHouse) existingPart).getMachineId()));
+                } else {
+                    outsourcedRadioButton.setSelected(true);
+                    handleCurrentView(outsourcedRadioButton);
+                    companyNameField.setText(String.valueOf(((Outsourced) existingPart).getCompanyName()));
+                }
             }
-
         });
 
 
-        // New part
-//        partId.setText(String.valueOf(Inventory.getInstance().getCurrentId()));
     }
 
     public Part getExistingPart() {

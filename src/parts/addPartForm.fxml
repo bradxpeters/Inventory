@@ -94,15 +94,15 @@
       </HBox>
       <VBox alignment="TOP_CENTER" prefHeight="345.0" prefWidth="173.0" spacing="46.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
-            <TextField fx:id="partId" alignment="CENTER" editable="false" />
-            <TextField fx:id="partName" alignment="CENTER" />
-            <TextField fx:id="inventoryLevel" alignment="CENTER" />
-            <TextField fx:id="costPerUnit" alignment="CENTER" />
-            <TextField fx:id="partMax" alignment="CENTER" />
+            <TextField fx:id="partIdField" alignment="CENTER" editable="false" />
+            <TextField fx:id="partNameField" alignment="CENTER" />
+            <TextField fx:id="partStockField" alignment="CENTER" />
+            <TextField fx:id="partPriceField" alignment="CENTER" />
+            <TextField fx:id="partMaxField" alignment="CENTER" />
             <StackPane alignment="TOP_CENTER" prefHeight="150.0" prefWidth="200.0">
                <children>
-                  <TextField fx:id="companyNameTextField" promptText="Company Name" />
-                  <TextField fx:id="machineIdTextField" promptText="Machine Id" />
+                  <TextField fx:id="companyNameField" promptText="Company Name" />
+                  <TextField fx:id="machineIdField" promptText="Machine Id" />
                </children>
             </StackPane>
          </children>
@@ -114,15 +114,15 @@
                   <Font size="18.0" />
                </font>
             </Label>
-            <TextField fx:id="partMin" layoutX="66.0" layoutY="290.0" prefHeight="27.0" prefWidth="208.0" />
+            <TextField fx:id="partMinField" layoutX="66.0" layoutY="290.0" prefHeight="27.0" prefWidth="208.0" />
          </children>
       </Pane>
       <Pane prefHeight="200.0" prefWidth="200.0" GridPane.columnIndex="2" GridPane.rowIndex="2">
          <children>
             <ButtonBar layoutX="21.0" layoutY="2.0" prefHeight="40.0" prefWidth="157.0">
               <buttons>
-                <Button fx:id="addPartFormSaveButton" mnemonicParsing="false" onAction="#handleSubmitAddPartForm" text="Save" />
-                  <Button fx:id="addPartFormCancelButton" mnemonicParsing="false" onAction="#handleCancelAddPartForm" text="Cancel" />
+                <Button fx:id="saveButton" mnemonicParsing="false" onAction="#handleSubmitAddPartForm" text="Save" />
+                  <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#handleCancelButton" text="Cancel" />
               </buttons>
             </ButtonBar>
          </children>
