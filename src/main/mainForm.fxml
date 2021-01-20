@@ -48,7 +48,7 @@
                   <TableColumn fx:id="costPerUnit" prefWidth="118.0" text="Price/Cost per Unit" />
               </columns>
             </TableView>
-            <TextField layoutX="316.0" layoutY="14.0" prefHeight="27.0" prefWidth="281.0" promptText="Search by Part ID" />
+            <TextField fx:id="searchPartField" layoutX="316.0" layoutY="14.0" prefHeight="27.0" prefWidth="281.0" promptText="Search by Part ID" />
             <ButtonBar layoutX="345.0" layoutY="319.0" prefHeight="39.0" prefWidth="244.0">
               <buttons>
                 <Button fx:id="addPartButton" mnemonicParsing="false" onAction="#handleAddPartButton" text="Add" />

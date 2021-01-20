@@ -1,5 +1,6 @@
 package main;
 
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -8,11 +9,13 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import parts.*;
 import products.Product;
 
+import java.awt.event.ActionEvent;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -20,6 +23,7 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.ResourceBundle;
+import java.util.stream.Collectors;
 
 public class Controller implements Initializable {
 
@@ -37,6 +41,9 @@ public class Controller implements Initializable {
 
     @FXML
     private Button modifyProductButton;
+
+    @FXML
+    private TextField searchPartField;
 
     @FXML
     TableView<Part> partsTable;
@@ -97,6 +104,21 @@ public class Controller implements Initializable {
         stage.show();
     }
 
+    @FXML
+    void handleSearchPart(String value) {
+        if (value != null) {
+            var filteredView = Inventory
+                .getInstance()
+                .getAllParts()
+                .stream()
+                .filter(part -> part.getName().contains(value) || part.getId() == (int) value)
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
+            partsTable.setItems(filteredView);
+        } else {
+            partsTable.setItems(Inventory.getInstance().getAllParts());
+        }
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Initialize cell factories
@@ -107,6 +129,11 @@ public class Controller implements Initializable {
 
         // Link table to observable list singleton
         partsTable.setItems(Inventory.getInstance().getAllParts());
+
+        // Listen to search field
+        searchPartField.textProperty().addListener((observableValue, oldValue, newValue) -> {
+            handleSearchPart(newValue);
+        });
 
         // Create some starter parts
         var inHousePartNames = Arrays.asList("brake pad", "rim");
