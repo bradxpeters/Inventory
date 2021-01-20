@@ -82,6 +82,19 @@ public class ProductsController implements Initializable {
     private Button deletePartButton;
 
     @FXML
+    private void handleSaveProduct() {
+        var product = this.getExistingProduct();
+        product.setName(productNameField.getText());
+        product.setPrice(Double.parseDouble(productPriceField.getText()));
+        product.setMin(Integer.parseInt(productMinField.getText()));
+        product.setMax(Integer.parseInt(productMaxField.getText()));
+        product.setStock(Integer.parseInt(productStockField.getText()));
+        product.setAssociatedParts(associatedPartsTable.getItems());
+
+        Inventory.getInstance().addProduct(product);
+    }
+
+    @FXML
     private void handleCancelButton() {
         var scene = (Stage) cancelButton.getScene().getWindow();
         scene.close();
@@ -132,7 +145,7 @@ public class ProductsController implements Initializable {
             } else {
                 // New product
                 productIdField.setText(String.valueOf(Inventory.getInstance().getCurrentProductId()));
-                this.existingProduct = new Product();
+                this.existingProduct = new Product(Inventory.getInstance().getCurrentProductId());
             }
 
             // Fill all parts table

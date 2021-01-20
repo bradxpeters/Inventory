@@ -126,7 +126,7 @@
             </Button>
             <HBox maxWidth="175.0" prefHeight="30.0" prefWidth="305.0" spacing="60.0">
                <children>
-                  <Button fx:id="saveButton" mnemonicParsing="false" text="Save" />
+                  <Button fx:id="saveButton" mnemonicParsing="false" onAction="#handleSaveProduct" text="Save" />
                   <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#handleCancelButton" text="Cancel" />
                </children>
                <VBox.margin>

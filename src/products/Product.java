@@ -78,7 +78,8 @@ public class Product {
         this.max = max;
     }
 
-    public Product() {
+    public Product(int id) {
+        this.id = id;
         this.associatedParts = FXCollections.observableList(new ArrayList<Part>());
     }
 
