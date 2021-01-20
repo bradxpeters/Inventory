@@ -59,7 +59,13 @@ public class Inventory {
     }
 
     public Product lookupProduct(int productId) {
-        return null;
+        return Inventory
+            .getInstance()
+            .getAllProducts()
+            .stream()
+            .filter(product -> product.getId() == productId)
+            .findFirst()
+            .orElse(null);
     }
 
     public ObservableList<Part> lookupPart (String partName) {
@@ -75,8 +81,17 @@ public class Inventory {
         }
     }
 
-    public ObservableList<Product> lookupProduct (String partName) {
-        return null;
+    public ObservableList<Product> lookupProduct (String productName) {
+        if (productName != null && !productName.equals("")) {
+            return Inventory
+                .getInstance()
+                .getAllProducts()
+                .stream()
+                .filter(part -> part.getName().contains(productName))
+                .collect(Collectors.toCollection(FXCollections::observableArrayList));
+        } else {
+            return this.getAllProducts();
+        }
     }
 
     public void updatePart(int index, Part selectedPart) {

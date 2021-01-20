@@ -55,6 +55,9 @@ public class Controller implements Initializable {
     private TextField searchPartField;
 
     @FXML
+    private TextField searchProductField;
+
+    @FXML
     TableView<Part> partsTable;
 
     @FXML
@@ -166,7 +169,7 @@ public class Controller implements Initializable {
         partsTable.setItems(Inventory.getInstance().getAllParts());
         productsTable.setItems(Inventory.getInstance().getAllProducts());
 
-        // Listen to search field
+        // Listen to search fields
         searchPartField.textProperty().addListener((observableValue, oldValue, newValue) -> {
             int partId = -1;
             try {
@@ -181,6 +184,22 @@ public class Controller implements Initializable {
                 partsTable.setItems(Inventory.getInstance().lookupPart(newValue));
             }
         });
+
+        searchProductField.textProperty().addListener((observableValue, oldValue, newValue) -> {
+            int productId = -1;
+            try {
+                productId = Integer.parseInt(newValue);
+            } catch (Exception ignored) {} // Not an parsable integer
+
+            if (productId != -1) {
+                var tempList = FXCollections.observableList(new ArrayList<Product>());
+                tempList.add(Inventory.getInstance().lookupProduct(productId));
+                productsTable.setItems(tempList);
+            } else {
+                productsTable.setItems(Inventory.getInstance().lookupProduct(newValue));
+            }
+        });
+
 
         // Modify buttons should be disabled until a selection is made
         modifyPartButton.setDisable(true);
