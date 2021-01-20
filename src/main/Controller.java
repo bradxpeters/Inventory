@@ -106,7 +106,7 @@ public class Controller implements Initializable {
 
     @FXML
     void handleSearchPart(String value) {
-        if (value != null) {
+        if (value != null && !value.equals("")) {
             var filteredView = Inventory
                 .getInstance()
                 .getAllParts()
