@@ -42,10 +42,6 @@ public class Inventory {
         currentPartId++;
     }
 
-    public Integer getCurrentPartId() {
-        return currentPartId;
-    }
-
     public void addProduct(Product newProduct) {
         allProducts.add(newProduct);
         currentProductId++;
@@ -93,4 +89,11 @@ public class Inventory {
         return this.allProducts;
     }
 
+    public Integer getCurrentPartId() {
+        return currentPartId;
+    }
+
+    public Integer getCurrentProductId() {
+        return currentProductId;
+    }
 }

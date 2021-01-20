@@ -14,6 +14,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import parts.*;
 import products.Product;
+import products.ProductsController;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -48,16 +49,31 @@ public class Controller implements Initializable {
     TableView<Part> partsTable;
 
     @FXML
+    TableView<Product> productsTable;
+
+    @FXML
     private TableColumn<Part,Integer> partId;
 
     @FXML
     private TableColumn<Part,String> partName;
 
     @FXML
-    private TableColumn<Part,Integer> inventoryLevel;
+    private TableColumn<Part,Integer> partStock;
 
     @FXML
-    private TableColumn<Part,Double> costPerUnit;
+    private TableColumn<Part,Double> partPrice;
+
+    @FXML
+    private TableColumn<Product,Integer> productId;
+
+    @FXML
+    private TableColumn<Product,String> productName;
+
+    @FXML
+    private TableColumn<Product,Integer> productStock;
+
+    @FXML
+    private TableColumn<Product,Double> productPrice;
 
     @FXML
     void handleAddPartButton() throws IOException {
@@ -96,9 +112,12 @@ public class Controller implements Initializable {
 
     @FXML
     void handleModifyProductButton() throws IOException {
-        var fxmlLoader = new FXMLLoader(Product.class.getResource("modifyProductForm.fxml"));
+        var fxmlLoader = new FXMLLoader(Part.class.getResource("addProductForm.fxml"));
         var root = (Parent) fxmlLoader.load();
+        var controller = (ProductsController) fxmlLoader.getController();
         var stage = new Stage();
+
+        controller.setExistingProduct(productsTable.getSelectionModel().getSelectedItem());
         stage.setScene(new Scene(root, 1100, 700));
         stage.show();
     }
@@ -123,11 +142,17 @@ public class Controller implements Initializable {
         // Initialize cell factories
         partId.setCellValueFactory(new PropertyValueFactory<>("id"));
         partName.setCellValueFactory(new PropertyValueFactory<>("name"));
-        inventoryLevel.setCellValueFactory(new PropertyValueFactory<>("stock"));
-        costPerUnit.setCellValueFactory(new PropertyValueFactory<>("price"));
+        partStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        partPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
+
+        productId.setCellValueFactory(new PropertyValueFactory<>("id"));
+        productName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        productStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
+        productPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
 
         // Link table to observable list singleton
         partsTable.setItems(Inventory.getInstance().getAllParts());
+        productsTable.setItems(Inventory.getInstance().getAllProducts());
 
         // Listen to search field
         searchPartField.textProperty().addListener((observableValue, oldValue, newValue) -> {
