@@ -1,6 +1,5 @@
 package main;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +12,10 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
-import parts.*;
+import parts.InHouse;
+import parts.Outsourced;
+import parts.Part;
+import parts.PartsController;
 import products.Product;
 import products.ProductsController;
 
@@ -81,7 +83,8 @@ public class Controller implements Initializable {
 
     @FXML
     void handleExitButton() {
-        Platform.exit();
+        var stage = (Stage) exitButton.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
