@@ -111,7 +111,7 @@ public class Controller implements Initializable {
                 .getInstance()
                 .getAllParts()
                 .stream()
-                .filter(part -> part.getName().contains(value) || part.getId() == (int) value)
+                .filter(part -> part.getName().contains(value) || String.valueOf(part.getId()).equalsIgnoreCase(value))
                 .collect(Collectors.toCollection(FXCollections::observableArrayList));
             partsTable.setItems(filteredView);
         } else {
