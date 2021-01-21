@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import main.Helpers;
 import main.Inventory;
 import products.Product;
 
@@ -183,6 +184,14 @@ public class PartsController implements Initializable {
                 // New part
                 partIdField.setText(String.valueOf(Inventory.getInstance().getCurrentPartId()));
             }
+
+            // Handle enforce types
+            var helpers = new Helpers();
+            partIdField.textProperty().addListener(helpers.integerFilter);
+            partStockField.textProperty().addListener(helpers.integerFilter);
+            partMaxField.textProperty().addListener(helpers.integerFilter);
+            partMinField.textProperty().addListener(helpers.integerFilter);
+            partPriceField.textProperty().addListener(helpers.decimalFilter);
         });
     }
 
