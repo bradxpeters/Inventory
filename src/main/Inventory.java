@@ -10,33 +10,17 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class Inventory {
-    private static Inventory inventory;
+
+
+    private ObservableList<Part> allParts;
+
+    private ObservableList<Product> allProducts;
 
     private Integer currentPartId = 1;
 
     private Integer currentProductId = 1;
 
-    private ObservableList<Part> allParts = null;
-
-    private ObservableList<Product> allProducts = null;
-
-    public static Inventory getInstance() {
-        if (inventory == null) {
-            inventory = new Inventory();
-        }
-        return inventory;
-    }
-
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    private Inventory() {
-        var partsObsList = FXCollections.observableList(new ArrayList<Part>());
-        partsObsList.addListener((ListChangeListener) change -> {});
-        this.allParts = partsObsList;
-
-        var productsObsList = FXCollections.observableList(new ArrayList<Product>());
-        productsObsList.addListener((ListChangeListener) change -> {});
-        this.allProducts = productsObsList;
-    }
+    private static Inventory inventory;
 
     public void addPart(Part newPart) {
         allParts.add(newPart);
@@ -108,23 +92,49 @@ public class Inventory {
     }
 
     public boolean deleteProduct(Product selectedProduct) {
-        currentPartId--;
+        currentProductId--;
         return allProducts.removeIf(p -> p.getId() == (selectedProduct.getId()));
     }
 
     public ObservableList<Part> getAllParts() {
+        if (this.allParts == null) {
+            this.allParts = FXCollections.observableList(new ArrayList<>());
+        }
+
         return this.allParts;
     }
 
     public ObservableList<Product> getAllProducts() {
+        if (this.allProducts == null) {
+            this.allProducts = FXCollections.observableList(new ArrayList<>());
+        }
+
         return this.allProducts;
     }
 
+    @SuppressWarnings({"unchecked", "rawtypes"})
+    private Inventory() {
+        var partsObsList = FXCollections.observableList(new ArrayList<Part>());
+        partsObsList.addListener((ListChangeListener) change -> {});
+        this.allParts = partsObsList;
+
+        var productsObsList = FXCollections.observableList(new ArrayList<Product>());
+        productsObsList.addListener((ListChangeListener) change -> {});
+        this.allProducts = productsObsList;
+    }
+
+    public static Inventory getInstance() {
+        if (inventory == null) {
+            inventory = new Inventory();
+        }
+        return inventory;
+    }
+
     public Integer getCurrentPartId() {
-        return currentPartId;
+        return currentPartId >= 1 ? currentPartId : 1;
     }
 
     public Integer getCurrentProductId() {
-        return currentProductId;
+        return currentProductId  >= 1 ? currentProductId : 1;
     }
 }

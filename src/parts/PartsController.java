@@ -74,7 +74,7 @@ public class PartsController implements Initializable {
     void handleSubmitAddPartForm(ActionEvent e) {
         // handle existing part
         if (this.existingPart != null) {
-            if (existingPart.getClass() == InHouse.class) {
+            if (inHouseRadioButton.isSelected()) {
                 var updatedPart = new InHouse(
                     this.existingPart.getId(),
                     partNameField.getText(),
@@ -128,7 +128,6 @@ public class PartsController implements Initializable {
                     )
                 );
             }
-
         }
 
         // Close the window

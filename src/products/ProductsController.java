@@ -5,12 +5,10 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
+import main.Helpers;
 import main.Inventory;
 import parts.Part;
 
@@ -161,6 +159,8 @@ public class ProductsController implements Initializable {
             associatedPartStock.setCellValueFactory(new PropertyValueFactory<>("stock"));
             associatedPartPrice.setCellValueFactory(new PropertyValueFactory<>("price"));
 
+            // Enforce max > min
+
             // Handle editing existing product
             if (this.getExistingProduct() != null) {
                 var existingProduct = this.getExistingProduct();
@@ -207,6 +207,13 @@ public class ProductsController implements Initializable {
                 }
             });
 
+            // Handle enforce types
+            var helpers = new Helpers();
+            productIdField.textProperty().addListener(helpers.integerFilter);
+            productStockField.textProperty().addListener(helpers.integerFilter);
+            productMaxField.textProperty().addListener(helpers.integerFilter);
+            productMinField.textProperty().addListener(helpers.integerFilter);
+            productPriceField.textProperty().addListener(helpers.decimalFilter);
 
         });
     }

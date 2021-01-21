@@ -34,19 +34,22 @@ public class Controller implements Initializable {
     private Button addPartButton;
 
     @FXML
-    private Button deletePartButton;
+    private Button modifyPartButton;
 
     @FXML
-    private Button modifyPartButton;
+    private Button deletePartButton;
 
     @FXML
     private Button addProductButton;
 
     @FXML
-    private Button exitButton;
+    private Button modifyProductButton;
 
     @FXML
-    private Button modifyProductButton;
+    private Button deleteProductButton;
+
+    @FXML
+    private Button exitButton;
 
     @FXML
     private TextField searchPartField;
@@ -102,6 +105,11 @@ public class Controller implements Initializable {
     @FXML
     void handleDeletePartButton() {
        Inventory.getInstance().deletePart(partsTable.getSelectionModel().getSelectedItem());
+    }
+
+    @FXML
+    void handleDeleteProductButton() {
+        Inventory.getInstance().deleteProduct(productsTable.getSelectionModel().getSelectedItem());
     }
 
     @FXML
@@ -208,7 +216,7 @@ public class Controller implements Initializable {
             handleProductSelectionChange(newValue);
         });
 
-        // Create some starter parts
+        // Create some starter parts and products
         var inHousePartNames = Arrays.asList("brake pad", "rim");
         var outsourcePartNames = Arrays.asList("tire", "door", "bolt");
         var productNames = Arrays.asList("Gian Bike", "Trek Bike", "Specialized Bike", "Scott Bike");
