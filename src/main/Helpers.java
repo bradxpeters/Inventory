@@ -4,8 +4,6 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.control.Alert;
 
-import java.util.function.Function;
-
 /**
  * The type Helpers.
  */

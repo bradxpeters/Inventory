@@ -70,45 +70,60 @@ public class PartsController implements Initializable {
     /**
      * Handle cancel button.
      *
-     * @param e the e
+     * @param e the ActionEvent
      */
     @FXML
-    void handleCancelButton(ActionEvent e) {
+    public void handleCancelButton(ActionEvent e) {
         // Close the window
         var stage = (Stage) saveButton.getScene().getWindow();
         stage.close();
     };
 
-    private boolean validateSave() {
-        return partNameField.getText() != null && !partNameField.getText().equalsIgnoreCase("")
-            && partPriceField.getText() != null && !partPriceField.getText().equalsIgnoreCase("")
-            && partStockField.getText() != null && !partStockField.getText().equalsIgnoreCase("")
-            && partMaxField.getText() != null && !partMaxField.getText().equalsIgnoreCase("")
-            && partMinField.getText() != null && !partMinField.getText().equalsIgnoreCase("");
+    /**
+     * Validate save boolean.
+     *
+     * @return the boolean
+     */
+    public boolean validateSave() {
+        return this.getPartNameField().getText() != null && !this.getPartNameField().getText().equalsIgnoreCase("")
+            && this.getPartPriceField().getText() != null && !this.getPartPriceField().getText().equalsIgnoreCase("")
+            && this.getPartStockField().getText() != null && !this.getPartStockField().getText().equalsIgnoreCase("")
+            && this.getPartMaxField().getText() != null && !this.getPartMaxField().getText().equalsIgnoreCase("")
+            && this.getPartMinField().getText() != null && !this.getPartMinField().getText().equalsIgnoreCase("");
     }
 
-    private boolean validateSaveInHouse() {
+    /**
+     * Validate save in house boolean.
+     *
+     * @return the boolean
+     */
+    public boolean validateSaveInHouse() {
         return validateSave()
-            && machineIdField.getText() != null
-            && !machineIdField.getText().equalsIgnoreCase("");
+            && this.getMachineIdField().getText() != null
+            && !this.getMachineIdField().getText().equalsIgnoreCase("");
     }
 
-    private boolean validateSaveOutsourced() {
+    /**
+     * Validate save outsourced boolean.
+     *
+     * @return the boolean
+     */
+    public boolean validateSaveOutsourced() {
         return validateSave()
-            && companyNameField.getText() != null
-            && !companyNameField.getText().equalsIgnoreCase("");
+            && this.getCompanyNameField().getText() != null
+            && !this.getCompanyNameField().getText().equalsIgnoreCase("");
     }
 
     /**
      * Handle submit add part form.
      *
-     * @param e the e
+     * @param e the ActionEvent
      */
     @FXML
-    void handleSubmitAddPartForm(ActionEvent e) {
+    public void handleSubmitAddPartForm(ActionEvent e) {
         // handle existing part
-        if (this.existingPart != null) {
-            if (inHouseRadioButton.isSelected()) {
+        if (this.getExistingPart() != null) {
+            if (this.getInHouseRadioButton().isSelected()) {
 
                 if (!validateSaveInHouse()) {
                     var alert = new Alert(Alert.AlertType.ERROR, "No fields can be left empty!");
@@ -118,16 +133,16 @@ public class PartsController implements Initializable {
                 }
 
                 var updatedPart = new InHouse(
-                    this.existingPart.getId(),
-                    partNameField.getText(),
-                    Double.parseDouble(partPriceField.getText()),
-                    Integer.parseInt(partStockField.getText()),
-                    Integer.parseInt(partMinField.getText()),
-                    Integer.parseInt(partMaxField.getText()),
-                    Integer.parseInt(machineIdField.getText())
+                    this.getExistingPart().getId(),
+                    this.getPartNameField().getText(),
+                    Double.parseDouble(this.getPartPriceField().getText()),
+                    Integer.parseInt(this.getPartStockField().getText()),
+                    Integer.parseInt(this.getPartMinField().getText()),
+                    Integer.parseInt(this.getPartMaxField().getText()),
+                    Integer.parseInt(this.getMachineIdField().getText())
                 );
 
-                var index = Inventory.getInstance().getAllParts().indexOf(this.existingPart);
+                var index = Inventory.getInstance().getAllParts().indexOf(this.getExistingPart());
                 Inventory.getInstance().updatePart(index, updatedPart);
             } else {
 
@@ -139,21 +154,21 @@ public class PartsController implements Initializable {
                 }
 
                 var updatedPart = new Outsourced(
-                    this.existingPart.getId(),
-                    partNameField.getText(),
-                    Double.parseDouble(partPriceField.getText()),
-                    Integer.parseInt(partStockField.getText()),
-                    Integer.parseInt(partMinField.getText()),
-                    Integer.parseInt(partMaxField.getText()),
-                    companyNameField.getText()
+                    this.getExistingPart().getId(),
+                    this.getPartNameField().getText(),
+                    Double.parseDouble(this.getPartPriceField().getText()),
+                    Integer.parseInt(this.getPartStockField().getText()),
+                    Integer.parseInt(this.getPartMinField().getText()),
+                    Integer.parseInt(this.getPartMaxField().getText()),
+                    this.getCompanyNameField().getText()
                 );
 
-                var index = Inventory.getInstance().getAllParts().indexOf(this.existingPart);
+                var index = Inventory.getInstance().getAllParts().indexOf(this.getExistingPart());
                 Inventory.getInstance().updatePart(index, updatedPart);
             }
         } else {
             // Handle new part
-            if (inHouseRadioButton.isSelected()) {
+            if (this.getInHouseRadioButton().isSelected()) {
 
                 if (!validateSaveInHouse()) {
                     var alert = new Alert(Alert.AlertType.ERROR, "No fields can be left empty!");
@@ -164,13 +179,13 @@ public class PartsController implements Initializable {
 
                 Inventory.getInstance().addPart(
                     new InHouse(
-                        Integer.parseInt(partIdField.getText()),
-                        partNameField.getText(),
-                        Integer.parseInt(partPriceField.getText()),
-                        Integer.parseInt(partStockField.getText()),
-                        Integer.parseInt(partMinField.getText()),
-                        Integer.parseInt(partMaxField.getText()),
-                        Integer.parseInt(machineIdField.getText())
+                        Integer.parseInt(this.getPartIdField().getText()),
+                        this.getPartNameField().getText(),
+                        Integer.parseInt(this.getPartPriceField().getText()),
+                        Integer.parseInt(this.getPartStockField().getText()),
+                        Integer.parseInt(this.getPartMinField().getText()),
+                        Integer.parseInt(this.getPartMaxField().getText()),
+                        Integer.parseInt(this.getMachineIdField().getText())
                     )
                 );
             } else {
@@ -183,30 +198,30 @@ public class PartsController implements Initializable {
 
                 Inventory.getInstance().addPart(
                     new Outsourced(
-                        Integer.parseInt(partIdField.getText()),
-                        partNameField.getText(),
-                        Integer.parseInt(partPriceField.getText()),
-                        Integer.parseInt(partStockField.getText()),
-                        Integer.parseInt(partMinField.getText()),
-                        Integer.parseInt(partMaxField.getText()),
-                        companyNameField.getText()
+                        Integer.parseInt(this.getPartIdField().getText()),
+                        this.getPartNameField().getText(),
+                        Integer.parseInt(this.getPartPriceField().getText()),
+                        Integer.parseInt(this.getPartStockField().getText()),
+                        Integer.parseInt(this.getPartMinField().getText()),
+                        Integer.parseInt(this.getPartMaxField().getText()),
+                        this.getCompanyNameField().getText()
                     )
                 );
             }
         }
 
         // Close the window
-        var stage = (Stage) saveButton.getScene().getWindow();
+        var stage = (Stage) this.getSaveButton().getScene().getWindow();
         stage.close();
     }
 
     /**
      * Handle toggle radio buttons.
      *
-     * @param e the e
+     * @param e the ActionEvent
      */
     @FXML
-    void handleToggleRadioButtons(ActionEvent e) {
+    public void handleToggleRadioButtons(ActionEvent e) {
         var selectedButton = (RadioButton) e.getSource();
         handleCurrentView(selectedButton);
     }
@@ -216,7 +231,7 @@ public class PartsController implements Initializable {
      *
      * @param button the button
      */
-    void handleCurrentView(RadioButton button) {
+    public void handleCurrentView(RadioButton button) {
         if (button.getId().equals(IN_HOUSE_RADIO)) {
             machineIdLabel.setVisible(true);
             machineIdField.setVisible(true);
@@ -239,11 +254,11 @@ public class PartsController implements Initializable {
             if (this.getExistingPart() != null) {
                 var existingPart = this.getExistingPart();
                 partIdField.setText(String.valueOf(existingPart.getId()));
-                partNameField.setText(existingPart.getName());
-                partStockField.setText(String.valueOf(existingPart.getStock()));
-                partPriceField.setText(String.valueOf(existingPart.getPrice()));
-                partMaxField.setText(String.valueOf(existingPart.getMax()));
-                partMinField.setText(String.valueOf(existingPart.getMin()));
+                this.getPartNameField().setText(existingPart.getName());
+                this.getPartStockField().setText(String.valueOf(existingPart.getStock()));
+                this.getPartPriceField().setText(String.valueOf(existingPart.getPrice()));
+                this.getPartMaxField().setText(String.valueOf(existingPart.getMax()));
+                this.getPartMinField().setText(String.valueOf(existingPart.getMin()));
 
                 if (existingPart.getClass() == InHouse.class) {
                     inHouseRadioButton.setSelected(true);
@@ -262,10 +277,10 @@ public class PartsController implements Initializable {
             // Handle enforce types
             var helpers = new Helpers();
             partIdField.textProperty().addListener(helpers.integerFilter);
-            partStockField.textProperty().addListener(helpers.integerFilter);
-            partMaxField.textProperty().addListener(helpers.integerFilter);
-            partMinField.textProperty().addListener(helpers.integerFilter);
-            partPriceField.textProperty().addListener(helpers.decimalFilter);
+            this.getPartStockField().textProperty().addListener(helpers.integerFilter);
+            this.getPartMaxField().textProperty().addListener(helpers.integerFilter);
+            this.getPartMinField().textProperty().addListener(helpers.integerFilter);
+            this.getPartPriceField().textProperty().addListener(helpers.decimalFilter);
         });
     }
 
@@ -285,5 +300,275 @@ public class PartsController implements Initializable {
      */
     public void setExistingPart(Part existingPart) {
         this.existingPart = existingPart;
+    }
+
+    /**
+     * Gets machine id label.
+     *
+     * @return the machine id label
+     */
+    public Label getMachineIdLabel() {
+        return machineIdLabel;
+    }
+
+    /**
+     * Sets machine id label.
+     *
+     * @param machineIdLabel the machine id label
+     */
+    public void setMachineIdLabel(Label machineIdLabel) {
+        this.machineIdLabel = machineIdLabel;
+    }
+
+    /**
+     * Gets company name label.
+     *
+     * @return the company name label
+     */
+    public Label getCompanyNameLabel() {
+        return companyNameLabel;
+    }
+
+    /**
+     * Sets company name label.
+     *
+     * @param companyNameLabel the company name label
+     */
+    public void setCompanyNameLabel(Label companyNameLabel) {
+        this.companyNameLabel = companyNameLabel;
+    }
+
+    /**
+     * Gets part id field.
+     *
+     * @return the part id field
+     */
+    public TextField getPartIdField() {
+        return partIdField;
+    }
+
+    /**
+     * Sets part id field.
+     *
+     * @param partIdField the part id field
+     */
+    public void setPartIdField(TextField partIdField) {
+        this.partIdField = partIdField;
+    }
+
+    /**
+     * Gets part name field.
+     *
+     * @return the part name field
+     */
+    public TextField getPartNameField() {
+        return partNameField;
+    }
+
+    /**
+     * Sets part name field.
+     *
+     * @param partNameField the part name field
+     */
+    public void setPartNameField(TextField partNameField) {
+        this.partNameField = partNameField;
+    }
+
+    /**
+     * Gets part stock field.
+     *
+     * @return the part stock field
+     */
+    public TextField getPartStockField() {
+        return partStockField;
+    }
+
+    /**
+     * Sets part stock field.
+     *
+     * @param partStockField the part stock field
+     */
+    public void setPartStockField(TextField partStockField) {
+        this.partStockField = partStockField;
+    }
+
+    /**
+     * Gets part price field.
+     *
+     * @return the part price field
+     */
+    public TextField getPartPriceField() {
+        return partPriceField;
+    }
+
+    /**
+     * Sets part price field.
+     *
+     * @param partPriceField the part price field
+     */
+    public void setPartPriceField(TextField partPriceField) {
+        this.partPriceField = partPriceField;
+    }
+
+    /**
+     * Gets machine id field.
+     *
+     * @return the machine id field
+     */
+    public TextField getMachineIdField() {
+        return machineIdField;
+    }
+
+    /**
+     * Sets machine id field.
+     *
+     * @param machineIdField the machine id field
+     */
+    public void setMachineIdField(TextField machineIdField) {
+        this.machineIdField = machineIdField;
+    }
+
+    /**
+     * Gets company name field.
+     *
+     * @return the company name field
+     */
+    public TextField getCompanyNameField() {
+        return companyNameField;
+    }
+
+    /**
+     * Sets company name field.
+     *
+     * @param companyNameField the company name field
+     */
+    public void setCompanyNameField(TextField companyNameField) {
+        this.companyNameField = companyNameField;
+    }
+
+    /**
+     * Gets part max field.
+     *
+     * @return the part max field
+     */
+    public TextField getPartMaxField() {
+        return partMaxField;
+    }
+
+    /**
+     * Sets part max field.
+     *
+     * @param partMaxField the part max field
+     */
+    public void setPartMaxField(TextField partMaxField) {
+        this.partMaxField = partMaxField;
+    }
+
+    /**
+     * Gets part min field.
+     *
+     * @return the part min field
+     */
+    public TextField getPartMinField() {
+        return partMinField;
+    }
+
+    /**
+     * Sets part min field.
+     *
+     * @param partMinField the part min field
+     */
+    public void setPartMinField(TextField partMinField) {
+        this.partMinField = partMinField;
+    }
+
+    /**
+     * Gets radio button group.
+     *
+     * @return the radio button group
+     */
+    public ToggleGroup getRadioButtonGroup() {
+        return radioButtonGroup;
+    }
+
+    /**
+     * Sets radio button group.
+     *
+     * @param radioButtonGroup the radio button group
+     */
+    public void setRadioButtonGroup(ToggleGroup radioButtonGroup) {
+        this.radioButtonGroup = radioButtonGroup;
+    }
+
+    /**
+     * Gets in house radio button.
+     *
+     * @return the in house radio button
+     */
+    public RadioButton getInHouseRadioButton() {
+        return inHouseRadioButton;
+    }
+
+    /**
+     * Sets in house radio button.
+     *
+     * @param inHouseRadioButton the in house radio button
+     */
+    public void setInHouseRadioButton(RadioButton inHouseRadioButton) {
+        this.inHouseRadioButton = inHouseRadioButton;
+    }
+
+    /**
+     * Gets outsourced radio button.
+     *
+     * @return the outsourced radio button
+     */
+    public RadioButton getOutsourcedRadioButton() {
+        return outsourcedRadioButton;
+    }
+
+    /**
+     * Sets outsourced radio button.
+     *
+     * @param outsourcedRadioButton the outsourced radio button
+     */
+    public void setOutsourcedRadioButton(RadioButton outsourcedRadioButton) {
+        this.outsourcedRadioButton = outsourcedRadioButton;
+    }
+
+    /**
+     * Gets save button.
+     *
+     * @return the save button
+     */
+    public Button getSaveButton() {
+        return saveButton;
+    }
+
+    /**
+     * Sets save button.
+     *
+     * @param saveButton the save button
+     */
+    public void setSaveButton(Button saveButton) {
+        this.saveButton = saveButton;
+    }
+
+    /**
+     * Gets cancel button.
+     *
+     * @return the cancel button
+     */
+    public Button getCancelButton() {
+        return cancelButton;
+    }
+
+    /**
+     * Sets cancel button.
+     *
+     * @param cancelButton the cancel button
+     */
+    public void setCancelButton(Button cancelButton) {
+        this.cancelButton = cancelButton;
     }
 }
