@@ -6,7 +6,13 @@ import javafx.scene.control.Alert;
 
 import java.util.function.Function;
 
+/**
+ * The type Helpers.
+ */
 public class Helpers {
+    /**
+     * The Integer filter.
+     */
     public ChangeListener<String> integerFilter = (obs, oldValue, newValue) -> {
         if (!newValue.matches("[0-9]*")) {
             ((StringProperty) obs).set(oldValue);
@@ -18,6 +24,9 @@ public class Helpers {
         }
     };
 
+    /**
+     * The Decimal filter.
+     */
     public ChangeListener<String> decimalFilter = (obs, oldValue, newValue) -> {
         if (!newValue.matches("[0-9.]*")) {
             ((StringProperty) obs).set(oldValue);

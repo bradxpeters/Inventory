@@ -25,6 +25,9 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.ResourceBundle;
 
+/**
+ * The type Controller.
+ */
 public class Controller implements Initializable {
 
     @FXML
@@ -54,9 +57,15 @@ public class Controller implements Initializable {
     @FXML
     private TextField searchProductField;
 
+    /**
+     * The Parts table.
+     */
     @FXML
     TableView<Part> partsTable;
 
+    /**
+     * The Products table.
+     */
     @FXML
     TableView<Product> productsTable;
 
@@ -84,12 +93,20 @@ public class Controller implements Initializable {
     @FXML
     private TableColumn<Product,Double> productPrice;
 
+    /**
+     * Handle exit button.
+     */
     @FXML
     void handleExitButton() {
         var stage = (Stage) exitButton.getScene().getWindow();
         stage.close();
     }
 
+    /**
+     * Handle add part button.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void handleAddPartButton() throws IOException {
         var fxmlLoader = new FXMLLoader(Part.class.getResource("addPartForm.fxml"));
@@ -99,16 +116,27 @@ public class Controller implements Initializable {
         stage.show();
     }
 
+    /**
+     * Handle delete part button.
+     */
     @FXML
     void handleDeletePartButton() {
        Inventory.getInstance().deletePart(partsTable.getSelectionModel().getSelectedItem());
     }
 
+    /**
+     * Handle delete product button.
+     */
     @FXML
     void handleDeleteProductButton() {
         Inventory.getInstance().deleteProduct(productsTable.getSelectionModel().getSelectedItem());
     }
 
+    /**
+     * Handle modify part button.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void handleModifyPartButton() throws IOException {
         var fxmlLoader = new FXMLLoader(Part.class.getResource("addPartForm.fxml"));
@@ -121,6 +149,11 @@ public class Controller implements Initializable {
         stage.show();
     }
 
+    /**
+     * Handle add product button.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void handleAddProductButton() throws IOException {
         var fxmlLoader = new FXMLLoader(Product.class.getResource("addProductForm.fxml"));
@@ -130,6 +163,11 @@ public class Controller implements Initializable {
         stage.show();
     }
 
+    /**
+     * Handle modify product button.
+     *
+     * @throws IOException the io exception
+     */
     @FXML
     void handleModifyProductButton() throws IOException {
         var fxmlLoader = new FXMLLoader(Product.class.getResource("addProductForm.fxml"));
@@ -142,12 +180,22 @@ public class Controller implements Initializable {
         stage.show();
     }
 
+    /**
+     * Handle part selection change.
+     *
+     * @param newValue the new value
+     */
     public void handlePartSelectionChange(Part newValue) {
         if (newValue != null) {
             modifyPartButton.setDisable(false);
         }
     }
 
+    /**
+     * Handle product selection change.
+     *
+     * @param newValue the new value
+     */
     public void handleProductSelectionChange(Product newValue) {
         if (newValue != null) {
             modifyProductButton.setDisable(false);
