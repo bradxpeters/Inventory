@@ -4,6 +4,8 @@ import javafx.beans.property.StringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.scene.control.Alert;
 
+import java.util.function.Function;
+
 public class Helpers {
     public ChangeListener<String> integerFilter = (obs, oldValue, newValue) -> {
         if (!newValue.matches("[0-9]*")) {

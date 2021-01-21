@@ -6,10 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import parts.InHouse;
@@ -188,6 +185,12 @@ public class Controller implements Initializable {
             } else {
                 partsTable.setItems(Inventory.getInstance().lookupPart(newValue));
             }
+
+            if (partsTable.getItems().size() == 0) {
+                var alert = new Alert(Alert.AlertType.ERROR, "No result found!");
+                alert.setHeaderText("Search error");
+                alert.showAndWait();
+            }
         });
 
         searchProductField.textProperty().addListener((observableValue, oldValue, newValue) -> {
@@ -202,6 +205,12 @@ public class Controller implements Initializable {
                 productsTable.setItems(tempList);
             } else {
                 productsTable.setItems(Inventory.getInstance().lookupProduct(newValue));
+            }
+
+            if (productsTable.getItems().size() == 0) {
+                var alert = new Alert(Alert.AlertType.ERROR, "No result found!");
+                alert.setHeaderText("Search error");
+                alert.showAndWait();
             }
         });
 

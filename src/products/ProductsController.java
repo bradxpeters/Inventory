@@ -86,8 +86,23 @@ public class ProductsController implements Initializable {
     @FXML
     private TextField searchField;
 
+    private boolean validateSave() {
+        return productNameField.getText() != null && !productNameField.getText().equalsIgnoreCase("")
+            && productPriceField.getText() != null && !productPriceField.getText().equalsIgnoreCase("")
+            && productStockField.getText() != null && !productStockField.getText().equalsIgnoreCase("")
+            && productMaxField.getText() != null && !productMaxField.getText().equalsIgnoreCase("")
+            && productMinField.getText() != null && !productMinField.getText().equalsIgnoreCase("");
+    }
+
     @FXML
     private void handleSaveProduct() {
+
+        if (!validateSave()) {
+            var alert = new Alert(Alert.AlertType.ERROR, "No fields can be left empty!");
+            alert.setHeaderText("Missing data error");
+            alert.showAndWait();
+            return;
+        }
 
         if (this.getExistingProduct() != null) {
             var updatedProduct = new Product(
@@ -205,6 +220,12 @@ public class ProductsController implements Initializable {
                 } else {
                     allPartsTable.setItems(Inventory.getInstance().lookupPart(newValue));
                 }
+
+                if (allPartsTable.getItems().size() == 0) {
+                    var alert = new Alert(Alert.AlertType.ERROR, "No result found!");
+                    alert.setHeaderText("Search error");
+                    alert.showAndWait();
+                }
             });
 
             // Handle enforce types
@@ -214,7 +235,6 @@ public class ProductsController implements Initializable {
             productMaxField.textProperty().addListener(helpers.integerFilter);
             productMinField.textProperty().addListener(helpers.integerFilter);
             productPriceField.textProperty().addListener(helpers.decimalFilter);
-
         });
     }
 }

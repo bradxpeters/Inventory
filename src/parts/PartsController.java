@@ -71,11 +71,39 @@ public class PartsController implements Initializable {
         stage.close();
     };
 
+    private boolean validateSave() {
+        return partNameField.getText() != null && !partNameField.getText().equalsIgnoreCase("")
+            && partPriceField.getText() != null && !partPriceField.getText().equalsIgnoreCase("")
+            && partStockField.getText() != null && !partStockField.getText().equalsIgnoreCase("")
+            && partMaxField.getText() != null && !partMaxField.getText().equalsIgnoreCase("")
+            && partMinField.getText() != null && !partMinField.getText().equalsIgnoreCase("");
+    }
+
+    private boolean validateSaveInHouse() {
+        return validateSave()
+            && machineIdField.getText() != null
+            && !machineIdField.getText().equalsIgnoreCase("");
+    }
+
+    private boolean validateSaveOutsourced() {
+        return validateSave()
+            && companyNameField.getText() != null
+            && !companyNameField.getText().equalsIgnoreCase("");
+    }
+
     @FXML
     void handleSubmitAddPartForm(ActionEvent e) {
         // handle existing part
         if (this.existingPart != null) {
             if (inHouseRadioButton.isSelected()) {
+
+                if (!validateSaveInHouse()) {
+                    var alert = new Alert(Alert.AlertType.ERROR, "No fields can be left empty!");
+                    alert.setHeaderText("Missing data error");
+                    alert.showAndWait();
+                    return;
+                }
+
                 var updatedPart = new InHouse(
                     this.existingPart.getId(),
                     partNameField.getText(),
@@ -89,6 +117,14 @@ public class PartsController implements Initializable {
                 var index = Inventory.getInstance().getAllParts().indexOf(this.existingPart);
                 Inventory.getInstance().updatePart(index, updatedPart);
             } else {
+
+                if (!validateSaveOutsourced()) {
+                    var alert = new Alert(Alert.AlertType.ERROR, "No fields can be left empty!");
+                    alert.setHeaderText("Missing data error");
+                    alert.showAndWait();
+                    return;
+                }
+
                 var updatedPart = new Outsourced(
                     this.existingPart.getId(),
                     partNameField.getText(),
@@ -105,6 +141,14 @@ public class PartsController implements Initializable {
         } else {
             // Handle new part
             if (inHouseRadioButton.isSelected()) {
+
+                if (!validateSaveInHouse()) {
+                    var alert = new Alert(Alert.AlertType.ERROR, "No fields can be left empty!");
+                    alert.setHeaderText("Missing data error");
+                    alert.showAndWait();
+                    return;
+                }
+
                 Inventory.getInstance().addPart(
                     new InHouse(
                         Integer.parseInt(partIdField.getText()),
@@ -117,6 +161,13 @@ public class PartsController implements Initializable {
                     )
                 );
             } else {
+                if (!validateSaveOutsourced()) {
+                    var alert = new Alert(Alert.AlertType.ERROR, "No fields can be left empty!");
+                    alert.setHeaderText("Missing data error");
+                    alert.showAndWait();
+                    return;
+                }
+
                 Inventory.getInstance().addPart(
                     new Outsourced(
                         Integer.parseInt(partIdField.getText()),
