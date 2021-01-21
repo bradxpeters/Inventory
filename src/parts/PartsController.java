@@ -13,6 +13,9 @@ import products.Product;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+/**
+ * The type Parts controller.
+ */
 public class PartsController implements Initializable {
 
     private final String IN_HOUSE_RADIO = "inHouseRadioButton";
@@ -64,6 +67,11 @@ public class PartsController implements Initializable {
     @FXML
     private Button cancelButton;
 
+    /**
+     * Handle cancel button.
+     *
+     * @param e the e
+     */
     @FXML
     void handleCancelButton(ActionEvent e) {
         // Close the window
@@ -91,6 +99,11 @@ public class PartsController implements Initializable {
             && !companyNameField.getText().equalsIgnoreCase("");
     }
 
+    /**
+     * Handle submit add part form.
+     *
+     * @param e the e
+     */
     @FXML
     void handleSubmitAddPartForm(ActionEvent e) {
         // handle existing part
@@ -187,12 +200,22 @@ public class PartsController implements Initializable {
         stage.close();
     }
 
+    /**
+     * Handle toggle radio buttons.
+     *
+     * @param e the e
+     */
     @FXML
     void handleToggleRadioButtons(ActionEvent e) {
         var selectedButton = (RadioButton) e.getSource();
         handleCurrentView(selectedButton);
     }
 
+    /**
+     * Handle current view.
+     *
+     * @param button the button
+     */
     void handleCurrentView(RadioButton button) {
         if (button.getId().equals(IN_HOUSE_RADIO)) {
             machineIdLabel.setVisible(true);
@@ -246,10 +269,20 @@ public class PartsController implements Initializable {
         });
     }
 
+    /**
+     * Gets existing part.
+     *
+     * @return the existing part
+     */
     public Part getExistingPart() {
         return existingPart;
     }
 
+    /**
+     * Sets existing part.
+     *
+     * @param existingPart the existing part
+     */
     public void setExistingPart(Part existingPart) {
         this.existingPart = existingPart;
     }

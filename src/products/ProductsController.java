@@ -16,6 +16,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+/**
+ * The type Products controller.
+ */
 public class ProductsController implements Initializable {
 
     @FXML
@@ -47,9 +50,15 @@ public class ProductsController implements Initializable {
 
     private Product newProduct;
 
+    /**
+     * The All parts table.
+     */
     @FXML
     TableView<Part> allPartsTable;
 
+    /**
+     * The Associated parts table.
+     */
     @FXML
     TableView<Part> associatedPartsTable;
 
@@ -141,14 +150,29 @@ public class ProductsController implements Initializable {
         scene.close();
     }
 
+    /**
+     * Gets existing product.
+     *
+     * @return the existing product
+     */
     public Product getExistingProduct() {
         return existingProduct;
     }
 
+    /**
+     * Sets existing product.
+     *
+     * @param existingProduct the existing product
+     */
     public void setExistingProduct(Product existingProduct) {
         this.existingProduct = existingProduct;
     }
 
+    /**
+     * Handle add part.
+     *
+     * @param e the e
+     */
     @FXML
     public void handleAddPart(ActionEvent e){
         this.getExistingProduct().addAssociatedPart(
@@ -156,6 +180,11 @@ public class ProductsController implements Initializable {
         );
     }
 
+    /**
+     * Handle remove part.
+     *
+     * @param e the e
+     */
     @FXML
     public void handleRemovePart(ActionEvent e){
         this.getExistingProduct().deleteAssociatedPart(associatedPartsTable.getSelectionModel().getSelectedItem());
