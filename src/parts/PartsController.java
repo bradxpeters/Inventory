@@ -8,7 +8,6 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import main.Helpers;
 import main.Inventory;
-import products.Product;
 
 import java.net.URL;
 import java.util.ResourceBundle;
