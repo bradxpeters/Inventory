@@ -71,7 +71,7 @@
       </HBox>
       <VBox alignment="CENTER_LEFT" prefHeight="200.0" prefWidth="100.0" spacing="21.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
          <children>
-            <TextField fx:id="productIdField" maxWidth="200.0" prefHeight="27.0" prefWidth="200.0" />
+            <TextField fx:id="productIdField" disable="true" editable="false" maxWidth="200.0" prefHeight="27.0" prefWidth="200.0" />
             <TextField fx:id="productNameField" maxWidth="195.0" prefHeight="27.0" prefWidth="195.0" />
             <TextField fx:id="productStockField" maxWidth="120.0" />
             <TextField fx:id="productPriceField" maxWidth="120.0" />
