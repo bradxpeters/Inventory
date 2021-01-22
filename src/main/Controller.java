@@ -22,7 +22,6 @@ import java.awt.*;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -108,7 +107,7 @@ public class Controller implements Initializable {
      * Handle clicking documentation link.
      */
     @FXML
-    private void handleClickDocumentationLink() throws IOException, URISyntaxException {
+    private void handleClickDocumentationLink() throws IOException {
         Desktop.getDesktop().browse(Paths.get("javadocs/index.html").toUri());
     }
 
@@ -131,7 +130,7 @@ public class Controller implements Initializable {
      */
     @FXML
     private void handleDeletePartButton() {
-       Inventory.getInstance().deletePart(partsTable.getSelectionModel().getSelectedItem());
+        Inventory.deletePart(partsTable.getSelectionModel().getSelectedItem());
     }
 
     /**
@@ -139,7 +138,7 @@ public class Controller implements Initializable {
      */
     @FXML
     private void handleDeleteProductButton() {
-        Inventory.getInstance().deleteProduct(productsTable.getSelectionModel().getSelectedItem());
+        Inventory.deleteProduct(productsTable.getSelectionModel().getSelectedItem());
     }
 
     /**
@@ -226,8 +225,8 @@ public class Controller implements Initializable {
         this.getProductPrice().setCellValueFactory(new PropertyValueFactory<>("price"));
 
         // Link table to observable list singleton
-        this.getPartsTable().setItems(Inventory.getInstance().getAllParts());
-        this.getProductsTable().setItems(Inventory.getInstance().getAllProducts());
+        this.getPartsTable().setItems(Inventory.getAllParts());
+        this.getProductsTable().setItems(Inventory.getAllProducts());
 
         // Listen to search fields
         this.getSearchPartField().textProperty().addListener((observableValue, oldValue, newValue) -> {
@@ -238,10 +237,10 @@ public class Controller implements Initializable {
 
             if (partId != -1) {
                 var tempList = FXCollections.observableList(new ArrayList<Part>());
-                tempList.add(Inventory.getInstance().lookupPart(partId));
+                tempList.add(Inventory.lookupPart(partId));
                 this.getPartsTable().setItems(tempList);
             } else {
-                this.getPartsTable().setItems(Inventory.getInstance().lookupPart(newValue));
+                this.getPartsTable().setItems(Inventory.lookupPart(newValue));
             }
 
             if (this.getPartsTable().getItems().size() == 0) {
@@ -259,10 +258,10 @@ public class Controller implements Initializable {
 
             if (productId != -1) {
                 var tempList = FXCollections.observableList(new ArrayList<Product>());
-                tempList.add(Inventory.getInstance().lookupProduct(productId));
+                tempList.add(Inventory.lookupProduct(productId));
                 this.getProductsTable().setItems(tempList);
             } else {
-                this.getProductsTable().setItems(Inventory.getInstance().lookupProduct(newValue));
+                this.getProductsTable().setItems(Inventory.lookupProduct(newValue));
             }
 
             if (this.getProductsTable().getItems().size() == 0) {
@@ -279,11 +278,11 @@ public class Controller implements Initializable {
         this.getPartsTable()
             .getSelectionModel()
             .selectedItemProperty()
-            .addListener((observableValue, oldValue, newValue) -> { handlePartSelectionChange(newValue); });
+            .addListener((observableValue, oldValue, newValue) -> handlePartSelectionChange(newValue));
         this.getProductsTable()
             .getSelectionModel()
             .selectedItemProperty()
-            .addListener((observableValue, oldValue, newValue) -> { handleProductSelectionChange(newValue); });
+            .addListener((observableValue, oldValue, newValue) -> handleProductSelectionChange(newValue));
 
         // Create some starter parts and products
         var inHousePartNames = Arrays.asList("brake pad", "rim");
@@ -298,7 +297,7 @@ public class Controller implements Initializable {
                     .doubleValue();
 
                 var part = new InHouse(
-                    Inventory.getInstance().getCurrentPartId(),
+                    Inventory.currentPartId,
                     name,
                     price,
                     1 + rand.nextInt((50 - 1) + 1),
@@ -307,7 +306,7 @@ public class Controller implements Initializable {
                     1 + rand.nextInt((50 - 1) + 1)
                 );
 
-                Inventory.getInstance().addPart(part);
+                Inventory.addPart(part);
             }
         );
 
@@ -319,7 +318,7 @@ public class Controller implements Initializable {
                         .doubleValue();
 
                     var part = new Outsourced(
-                        Inventory.getInstance().getCurrentPartId(),
+                        Inventory.currentPartId,
                         name,
                         price,
                         1 + rand.nextInt((50 - 1) + 1),
@@ -328,7 +327,7 @@ public class Controller implements Initializable {
                         "Auto Parts Palace"
                     );
 
-                    Inventory.getInstance().addPart(part);
+                    Inventory.addPart(part);
                 }
         );
 
@@ -340,8 +339,8 @@ public class Controller implements Initializable {
                             .doubleValue();
 
                     var product = new Product(
-                            FXCollections.observableList(new ArrayList<Part>()),
-                            Inventory.getInstance().getCurrentProductId(),
+                            FXCollections.observableList(new ArrayList<>()),
+                            Inventory.currentProductId,
                             name,
                             price,
                             1 + rand.nextInt((50 - 1) + 1),
@@ -349,7 +348,7 @@ public class Controller implements Initializable {
                             1 + rand.nextInt((50 - 1) + 1)
                     );
 
-                    Inventory.getInstance().addProduct(product);
+                    Inventory.addProduct(product);
                 }
         );
     }

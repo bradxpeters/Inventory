@@ -125,8 +125,8 @@ public class ProductsController implements Initializable {
                 Integer.parseInt(this.getProductMaxField().getText())
             );
 
-            var index = Inventory.getInstance().getAllProducts().indexOf(this.getExistingProduct());
-            Inventory.getInstance().updateProduct(index, updatedProduct);
+            var index = Inventory.getAllProducts().indexOf(this.getExistingProduct());
+            Inventory.updateProduct(index, updatedProduct);
         } else {
             var newProduct = new Product(
                 this.getAssociatedPartsTable().getItems(),
@@ -138,7 +138,7 @@ public class ProductsController implements Initializable {
                 Integer.parseInt(this.getProductMaxField().getText())
             );
 
-            Inventory.getInstance().addProduct(newProduct);
+            Inventory.addProduct(newProduct);
         }
 
         var stage = (Stage) this.getSaveButton().getScene().getWindow();
@@ -225,12 +225,12 @@ public class ProductsController implements Initializable {
                 this.getProductMinField().setText(String.valueOf(existingProduct.getMin()));
             } else {
                 // New product
-                this.getProductIdField().setText(String.valueOf(Inventory.getInstance().getCurrentProductId()));
+                this.getProductIdField().setText(String.valueOf(Inventory.currentProductId));
                 this.setTmpParts(FXCollections.observableList(new ArrayList<>()));
             }
 
             // Fill all parts table
-            this.getAllPartsTable().setItems(Inventory.getInstance().getAllParts());
+            this.getAllPartsTable().setItems(Inventory.getAllParts());
             this.getAssociatedPartsTable().setItems(
                 this.getExistingProduct() != null
                     ? this.getExistingProduct().getAllAssociatedParts()
@@ -254,10 +254,10 @@ public class ProductsController implements Initializable {
 
                 if (partId != -1) {
                     var tempList = FXCollections.observableList(new ArrayList<Part>());
-                    tempList.add(Inventory.getInstance().lookupPart(partId));
+                    tempList.add(Inventory.lookupPart(partId));
                     this.getAllPartsTable().setItems(tempList);
                 } else {
-                    this.getAllPartsTable().setItems(Inventory.getInstance().lookupPart(newValue));
+                    this.getAllPartsTable().setItems(Inventory.lookupPart(newValue));
                 }
 
                 if (this.getAllPartsTable().getItems().size() == 0) {

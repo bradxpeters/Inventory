@@ -141,8 +141,8 @@ public class PartsController implements Initializable {
                     Integer.parseInt(this.getMachineIdField().getText())
                 );
 
-                var index = Inventory.getInstance().getAllParts().indexOf(this.getExistingPart());
-                Inventory.getInstance().updatePart(index, updatedPart);
+                var index = Inventory.getAllParts().indexOf(this.getExistingPart());
+                Inventory.updatePart(index, updatedPart);
             } else {
 
                 if (!validateSaveOutsourced()) {
@@ -162,8 +162,8 @@ public class PartsController implements Initializable {
                     this.getCompanyNameField().getText()
                 );
 
-                var index = Inventory.getInstance().getAllParts().indexOf(this.getExistingPart());
-                Inventory.getInstance().updatePart(index, updatedPart);
+                var index = Inventory.getAllParts().indexOf(this.getExistingPart());
+                Inventory.updatePart(index, updatedPart);
             }
         } else {
             // Handle new part
@@ -176,7 +176,7 @@ public class PartsController implements Initializable {
                     return;
                 }
 
-                Inventory.getInstance().addPart(
+                Inventory.addPart(
                     new InHouse(
                         Integer.parseInt(this.getPartIdField().getText()),
                         this.getPartNameField().getText(),
@@ -195,7 +195,7 @@ public class PartsController implements Initializable {
                     return;
                 }
 
-                Inventory.getInstance().addPart(
+                Inventory.addPart(
                     new Outsourced(
                         Integer.parseInt(this.getPartIdField().getText()),
                         this.getPartNameField().getText(),
@@ -270,7 +270,7 @@ public class PartsController implements Initializable {
                 }
             } else {
                 // New part
-                partIdField.setText(String.valueOf(Inventory.getInstance().getCurrentPartId()));
+                partIdField.setText(String.valueOf(Inventory.currentPartId));
             }
 
             // Handle enforce types
