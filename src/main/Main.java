@@ -25,7 +25,7 @@ public class Main extends Application {
      * FUTURE ENHANCEMENTS:
      * - Make the value editable straight from the table without having to open a modal.
      * - Add a drop down of popular brands and parts so the user can select from a list rather than typing.
-     * - Save the state of the app to a database so it can be persistent. 
+     * - Save the state of the app to a database so it can be persistent.
      *
      * @param args the input arguments
      */
