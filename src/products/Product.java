@@ -2,6 +2,8 @@ package products;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import parts.Part;
 
 import java.util.ArrayList;
@@ -200,9 +202,17 @@ public class Product {
      * @return the boolean
      */
     public boolean deleteAssociatedPart(Part selectedAssociatedPart) {
-        return this
-            .getAllAssociatedParts()
-            .removeIf(p -> p.getId() == selectedAssociatedPart.getId());
+        var alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to remove associated part "
+            + selectedAssociatedPart.getName() + "?");
+        alert.setHeaderText("Confirmation");
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.OK) {
+            return this.getAllAssociatedParts()
+                .removeIf(p -> p.getId() == selectedAssociatedPart.getId());
+        }
+
+        return false;
     }
 
 }

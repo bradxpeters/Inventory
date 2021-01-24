@@ -143,6 +143,9 @@ public class Controller implements Initializable {
 
     /**
      * Handle modify part button.
+     * I ran into an issue here where I needed to make sure the selected part populated the modify part modal.
+     * I figured out how to grab the controller instance and set the selected part. I applied the same to the
+     * product form.
      *
      * @throws IOException the io exception
      */
@@ -197,6 +200,7 @@ public class Controller implements Initializable {
     public void handlePartSelectionChange(Part newValue) {
         if (newValue != null) {
             this.getModifyPartButton().setDisable(false);
+            this.getDeletePartButton().setDisable(false);
         }
     }
 
@@ -208,6 +212,7 @@ public class Controller implements Initializable {
     public void handleProductSelectionChange(Product newValue) {
         if (newValue != null) {
             this.getModifyProductButton().setDisable(false);
+            this.getDeleteProductButton().setDisable(false);
         }
     }
 
@@ -221,6 +226,7 @@ public class Controller implements Initializable {
      * I ran into several issues during development that lead me to implementing the Initializable pattern.
      * This allowed me to populate some initial parts and products and speed up the development feedback loop.
      * I also leveraged this method to apply listeners to simplify things like search.
+     *
      */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -289,9 +295,11 @@ public class Controller implements Initializable {
         });
 
 
-        // Modify buttons should be disabled until a selection is made
+        // Modify and delete buttons should be disabled until a selection is made
         this.getModifyPartButton().setDisable(true);
         this.getModifyProductButton().setDisable(true);
+        this.getDeletePartButton().setDisable(true);
+        this.getDeleteProductButton().setDisable(true);
         this.getPartsTable()
             .getSelectionModel()
             .selectedItemProperty()
@@ -317,9 +325,9 @@ public class Controller implements Initializable {
                     Inventory.currentPartId,
                     name,
                     price,
-                        30 + rand.nextInt((30 - 20) + 1),
-                    28 + rand.nextInt((29 - 20) + 1),
-                    50 + rand.nextInt((50 - 35) + 1),
+                    20 + rand.nextInt((30 - 20) + 1),
+                    1 + rand.nextInt((10 - 1) + 1),
+                    50 + rand.nextInt((75 - 50) + 1),
                     50 + rand.nextInt((50 - 1) + 1)
                 );
 
@@ -338,9 +346,9 @@ public class Controller implements Initializable {
                         Inventory.currentPartId,
                         name,
                         price,
-                        30 + rand.nextInt((30 - 20) + 1),
-                        28 + rand.nextInt((29 - 20) + 1),
-                        50 + rand.nextInt((50 - 35) + 1),
+                        20 + rand.nextInt((30 - 20) + 1),
+                        1 + rand.nextInt((10 - 1) + 1),
+                        50 + rand.nextInt((75 - 50) + 1),
                         "Auto Parts Palace"
                     );
 
@@ -352,17 +360,17 @@ public class Controller implements Initializable {
                 name -> {
                     Random rand = new Random();
                     var price = BigDecimal.valueOf(1.0 + rand.nextDouble() * 1 + rand.nextInt((50 - 1) + 1))
-                            .setScale(2, RoundingMode.HALF_UP)
-                            .doubleValue();
+                        .setScale(2, RoundingMode.HALF_UP)
+                        .doubleValue();
 
                     var product = new Product(
-                            FXCollections.observableList(new ArrayList<>()),
-                            Inventory.currentProductId,
-                            name,
-                            price,
-                            30 + rand.nextInt((30 - 20) + 1),
-                            28 + rand.nextInt((29 - 20) + 1),
-                            50 + rand.nextInt((50 - 35) + 1)
+                        FXCollections.observableList(new ArrayList<>()),
+                        Inventory.currentProductId,
+                        name,
+                        price,
+                        20 + rand.nextInt((30 - 20) + 1),
+                        1 + rand.nextInt((10 - 1) + 1),
+                        50 + rand.nextInt((75 - 50) + 1)
                     );
 
                     Inventory.addProduct(product);

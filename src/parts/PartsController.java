@@ -201,7 +201,7 @@ public class PartsController implements Initializable {
                     new InHouse(
                         Integer.parseInt(this.getPartIdField().getText()),
                         this.getPartNameField().getText(),
-                        Integer.parseInt(this.getPartPriceField().getText()),
+                        Double.parseDouble(this.getPartPriceField().getText()),
                         Integer.parseInt(this.getPartStockField().getText()),
                         Integer.parseInt(this.getPartMinField().getText()),
                         Integer.parseInt(this.getPartMaxField().getText()),
@@ -224,7 +224,7 @@ public class PartsController implements Initializable {
                     new Outsourced(
                         Integer.parseInt(this.getPartIdField().getText()),
                         this.getPartNameField().getText(),
-                        Integer.parseInt(this.getPartPriceField().getText()),
+                        Double.parseDouble(this.getPartPriceField().getText()),
                         Integer.parseInt(this.getPartStockField().getText()),
                         Integer.parseInt(this.getPartMinField().getText()),
                         Integer.parseInt(this.getPartMaxField().getText()),

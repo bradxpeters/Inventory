@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import parts.Part;
 import products.Product;
 
@@ -135,8 +136,17 @@ public class Inventory {
      * @return the boolean
      */
     public static boolean deletePart(Part selectedPart) {
-        currentPartId--;
-        return allParts.removeIf(p -> p.getId() == (selectedPart.getId()));
+        var alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete "
+                + selectedPart.getName() + "?");
+        alert.setHeaderText("Confirmation");
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.OK) {
+            currentPartId--;
+            return allParts.removeIf(p -> p.getId() == (selectedPart.getId()));
+        }
+
+        return false;
     }
 
     /**
@@ -154,8 +164,17 @@ public class Inventory {
             return false;
         }
 
-        currentProductId--;
-        return allProducts.removeIf(p -> p.getId() == (selectedProduct.getId()));
+        var alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete "
+            + selectedProduct.getName() + "?");
+        alert.setHeaderText("Confirmation");
+        alert.showAndWait();
+
+        if (alert.getResult() == ButtonType.OK) {
+            currentProductId--;
+            return allProducts.removeIf(p -> p.getId() == (selectedProduct.getId()));
+        }
+
+        return false;
     }
 
     /**
