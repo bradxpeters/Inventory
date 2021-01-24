@@ -21,7 +21,6 @@ public class Main extends Application {
 
     /**
      * The entry point of application.
-     *
      * FUTURE ENHANCEMENTS:
      * - Make the value editable straight from the table without having to open a modal.
      * - Add a drop down of popular brands and parts so the user can select from a list rather than typing.
