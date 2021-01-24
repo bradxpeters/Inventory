@@ -120,12 +120,25 @@ public class PartsController implements Initializable {
      */
     @FXML
     public void handleSubmitAddPartForm(ActionEvent e) {
+        var helpers = new Helpers();
+
+        if(!this.validateSave()) {
+            var alert = new Alert(Alert.AlertType.ERROR, "No fields can be left empty!");
+            alert.setHeaderText("Missing data error");
+            alert.showAndWait();
+            return;
+        }
+
+        var max = Integer.parseInt(this.getPartMaxField().getText());
+        var min = Integer.parseInt(this.getPartMinField().getText());
+        var stock =  Integer.parseInt(this.getPartStockField().getText());
+
         // handle existing part
         if (this.getExistingPart() != null) {
             if (this.getInHouseRadioButton().isSelected()) {
 
                 if (!validateSaveInHouse()) {
-                    var alert = new Alert(Alert.AlertType.ERROR, "No fields can be left empty!");
+                    var alert = new Alert(Alert.AlertType.ERROR, "Machine Id is missing!");
                     alert.setHeaderText("Missing data error");
                     alert.showAndWait();
                     return;
@@ -146,9 +159,13 @@ public class PartsController implements Initializable {
             } else {
 
                 if (!validateSaveOutsourced()) {
-                    var alert = new Alert(Alert.AlertType.ERROR, "No fields can be left empty!");
+                    var alert = new Alert(Alert.AlertType.ERROR, "Company name is missing!");
                     alert.setHeaderText("Missing data error");
                     alert.showAndWait();
+                    return;
+                }
+
+                if (!helpers.stockLevelsValid(max, min, stock)) {
                     return;
                 }
 
@@ -176,6 +193,10 @@ public class PartsController implements Initializable {
                     return;
                 }
 
+                if (!helpers.stockLevelsValid(max, min, stock)) {
+                    return;
+                }
+
                 Inventory.addPart(
                     new InHouse(
                         Integer.parseInt(this.getPartIdField().getText()),
@@ -192,6 +213,10 @@ public class PartsController implements Initializable {
                     var alert = new Alert(Alert.AlertType.ERROR, "No fields can be left empty!");
                     alert.setHeaderText("Missing data error");
                     alert.showAndWait();
+                    return;
+                }
+
+                if (!helpers.stockLevelsValid(max, min, stock)) {
                     return;
                 }
 

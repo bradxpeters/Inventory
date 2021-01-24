@@ -211,6 +211,17 @@ public class Controller implements Initializable {
         }
     }
 
+    /**
+     * Handle the initialization of the main stage
+     *
+     * @param url the url
+     * @param resourceBundle the ResourceBundle
+     *
+     *
+     * I ran into several issues during development that lead me to implementing the Initializable pattern.
+     * This allowed me to populate some initial parts and products and speed up the development feedback loop.
+     * I also leveraged this method to apply listeners to simplify things like search.
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // Initialize cell factories
@@ -241,6 +252,12 @@ public class Controller implements Initializable {
                 this.getPartsTable().setItems(tempList);
             } else {
                 this.getPartsTable().setItems(Inventory.lookupPart(newValue));
+            }
+
+            // Ensure that if an exact match is found that it is selected for modification
+            if (this.getPartsTable().getItems().size() == 1) {
+                this.getPartsTable().getSelectionModel().select(0);
+                this.getPartsTable().getFocusModel().focus(0);
             }
 
             if (this.getPartsTable().getItems().size() == 0) {
@@ -287,7 +304,7 @@ public class Controller implements Initializable {
         // Create some starter parts and products
         var inHousePartNames = Arrays.asList("brake pad", "rim");
         var outsourcePartNames = Arrays.asList("tire", "door", "bolt");
-        var productNames = Arrays.asList("Gian Bike", "Trek Bike", "Specialized Bike", "Scott Bike");
+        var productNames = Arrays.asList("Giant Bike", "Trek Bike", "Specialized Bike", "Scott Bike");
 
         inHousePartNames.forEach(
             name -> {
@@ -300,10 +317,10 @@ public class Controller implements Initializable {
                     Inventory.currentPartId,
                     name,
                     price,
-                    1 + rand.nextInt((50 - 1) + 1),
-                    1 + rand.nextInt((50 - 1) + 1),
-                    1 + rand.nextInt((50 - 1) + 1),
-                    1 + rand.nextInt((50 - 1) + 1)
+                        30 + rand.nextInt((30 - 20) + 1),
+                    28 + rand.nextInt((29 - 20) + 1),
+                    50 + rand.nextInt((50 - 35) + 1),
+                    50 + rand.nextInt((50 - 1) + 1)
                 );
 
                 Inventory.addPart(part);
@@ -321,9 +338,9 @@ public class Controller implements Initializable {
                         Inventory.currentPartId,
                         name,
                         price,
-                        1 + rand.nextInt((50 - 1) + 1),
-                        1 + rand.nextInt((50 - 1) + 1),
-                        1 + rand.nextInt((50 - 1) + 1),
+                        30 + rand.nextInt((30 - 20) + 1),
+                        28 + rand.nextInt((29 - 20) + 1),
+                        50 + rand.nextInt((50 - 35) + 1),
                         "Auto Parts Palace"
                     );
 
@@ -343,9 +360,9 @@ public class Controller implements Initializable {
                             Inventory.currentProductId,
                             name,
                             price,
-                            1 + rand.nextInt((50 - 1) + 1),
-                            1 + rand.nextInt((50 - 1) + 1),
-                            1 + rand.nextInt((50 - 1) + 1)
+                            30 + rand.nextInt((30 - 20) + 1),
+                            28 + rand.nextInt((29 - 20) + 1),
+                            50 + rand.nextInt((50 - 35) + 1)
                     );
 
                     Inventory.addProduct(product);

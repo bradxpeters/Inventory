@@ -35,4 +35,26 @@ public class Helpers {
             ((StringProperty) obs).set(newValue);
         }
     };
+
+    /**
+     * Validate stock levels.
+     * Ensures the max is greater than the min and that stock is between those two value
+     *
+     */
+    public boolean stockLevelsValid(int max, int min, int stock) {
+        var valid = max > min && stock > min && stock < max;
+
+        System.out.println("MAX: " + max);
+        System.out.println("MIN: " + min);
+        System.out.println("STOCK: " + stock);
+
+        if (!valid) {
+            var alert = new Alert(Alert.AlertType.ERROR, "Max must be greater than min and inventory " +
+                    "must be a value between the max and the min!");
+            alert.setHeaderText("Inventory error!");
+            alert.showAndWait();
+        }
+
+        return valid;
+    }
 }

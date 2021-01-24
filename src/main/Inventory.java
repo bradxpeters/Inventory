@@ -3,6 +3,7 @@ package main;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.scene.control.Alert;
 import parts.Part;
 import products.Product;
 
@@ -140,11 +141,19 @@ public class Inventory {
 
     /**
      * Delete product boolean.
+     * Only allow deletion if there are no associated parts.
      *
      * @param selectedProduct the selected product
      * @return the boolean
      */
     public static boolean deleteProduct(Product selectedProduct) {
+        if (selectedProduct.getAllAssociatedParts().size() > 0) {
+            var alert = new Alert(Alert.AlertType.ERROR, "Cannot delete product, it has associated parts!");
+            alert.setHeaderText("Deletion error!");
+            alert.showAndWait();
+            return false;
+        }
+
         currentProductId--;
         return allProducts.removeIf(p -> p.getId() == (selectedProduct.getId()));
     }

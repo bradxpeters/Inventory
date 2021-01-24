@@ -96,7 +96,7 @@ public class ProductsController implements Initializable {
     @FXML
     private TextField searchField;
 
-    private boolean validateSave() {
+    private boolean validateEmptyFields() {
         return this.getProductNameField().getText() != null && !this.getProductNameField().getText().equalsIgnoreCase("")
             && this.getProductPriceField().getText() != null && !this.getProductPriceField().getText().equalsIgnoreCase("")
             && this.getProductStockField().getText() != null && !this.getProductStockField().getText().equalsIgnoreCase("")
@@ -106,11 +106,20 @@ public class ProductsController implements Initializable {
 
     @FXML
     private void handleSaveProduct() {
+        var helpers = new Helpers();
 
-        if (!validateSave()) {
+        if (!validateEmptyFields()) {
             var alert = new Alert(Alert.AlertType.ERROR, "No fields can be left empty!");
             alert.setHeaderText("Missing data error");
             alert.showAndWait();
+            return;
+        }
+
+        var max = Integer.parseInt(this.getProductMaxField().getText());
+        var min = Integer.parseInt(this.getProductMinField().getText());
+        var stock =  Integer.parseInt(this.getProductStockField().getText());
+
+        if (!helpers.stockLevelsValid(max, min, stock)) {
             return;
         }
 
